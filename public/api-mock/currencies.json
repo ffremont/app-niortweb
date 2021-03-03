@@ -1,0 +1,16 @@
+{
+    "at":111111,
+    "data":[{
+        "name":"BTC",
+        "price": 7200
+    },{
+        "name":"ETH",
+        "price": 500
+    },{
+        "name":"USDC",
+        "price": 1.14
+    },{
+        "name":"EUR",
+        "price": 1
+    }]
+}
