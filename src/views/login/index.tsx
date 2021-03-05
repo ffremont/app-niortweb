@@ -4,10 +4,9 @@ import {
   Redirect
 } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
-import HomeTradingIcon from '../../assets/images/logo512.png';
+import AppIcon from '../../assets/images/logo512.png';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -86,7 +85,6 @@ class Login extends React.Component<{history:any,location:any}, {loading:boolean
           .then((results) => {
             const user = results[1];
             //let from = '/tickets';
-            console.log('ok');
             this.setState({ loading: false, isSignedIn: true, from: this.state.from });
           }).catch((e) => {
             this.setState({ loading: false, isSignedIn: false, from:'/error' });
@@ -130,7 +128,7 @@ class Login extends React.Component<{history:any,location:any}, {loading:boolean
           <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className="paper">
-              <Avatar className="avatar" src={HomeTradingIcon}>
+              <Avatar className="avatar" src={AppIcon}>
                
               </Avatar>
               <Typography component="h1" variant="h5">
