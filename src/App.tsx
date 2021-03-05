@@ -14,8 +14,7 @@ import * as moment from 'moment';
 import 'moment/locale/fr';
 import Error from './views/error';
 import historyService from './services/history.service';
-import Tickets from './views/tickets';
-import TicketDetail from './views/ticket-detail';
+import Welcome from './views/welcome';
 
 
 // @see https://material-ui.com/customization/palette/
@@ -44,10 +43,8 @@ class App extends React.Component<{}, {  }>{
 
             <Route path="/login" component={Login} />
             
-            <PrivateRoute exact path="/" component={Tickets} />        
-            <PrivateRoute exact path="/tickets" component={Tickets} />        
-            <PrivateRoute exact path="/tickets/:id" component={TicketDetail} /> 
-            <PrivateRoute exact path="/tickets/new" component={TicketDetail} /> 
+            <PrivateRoute exact path="/" component={Welcome} />        
+            <PrivateRoute exact path="/evenements" component={Welcome} />        
 
             <Route path="/error" component={Error} />
             <Route path="*" component={NoMatch} />

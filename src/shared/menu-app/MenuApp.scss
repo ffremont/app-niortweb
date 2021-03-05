@@ -1,5 +1,6 @@
 .my-icon{
     max-height: 42px;
+    border-radius: 20px;
     
     margin-bottom: -7px;
 }
@@ -20,7 +21,7 @@
 
 .install-icon{
     background: white;
-    width: 30px;
+    width: auto;
     padding: 4px 4px 0px 4px;
     border-radius: 9px;
     margin: 0px 13px;
@@ -28,6 +29,7 @@
     img{
         width: 30px;
         height: 30px;
+        border-radius: 15Px;
     }
 }
 

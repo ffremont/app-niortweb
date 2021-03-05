@@ -1,18 +1,27 @@
 import React from 'react';
-import './Tickets.scss';
+import './Welcome.scss';
 import MenuApp from '../../shared/menu-app';
 import historyService from '../../services/history.service';
 import ticketStore from '../../stores/ticket';
 import currencyStore from '../../stores/currency';
-import { Chip, CircularProgress, Fab, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
+import { Chip, CircularProgress } from '@material-ui/core';
 import { Ticket } from '../../models/Ticket';
 import { Currencies } from '../../models/Currencies';
 import { TicketStateEnum } from '../../models/TicketStateEnum';
 import { Currency } from '../../models/Currency';
 import { firstBy } from "thenby";
 import SnackAdd from '../../shared/snack-add';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Collapse from '@material-ui/core/Collapse';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import AppIcon from '../../assets/images/banner-logo.png';
 
-class Tickets extends React.Component<{ history: any, match: any }, {
+class Welcome extends React.Component<{ history: any, match: any }, {
   tickets: Ticket[],
   currencies: Currencies | null,
   openCrypto: boolean,
@@ -43,7 +52,7 @@ class Tickets extends React.Component<{ history: any, match: any }, {
         this.setState({ tickets, currencies: data[1] });
       });
   }
- 
+
   //groupBy(pets, pet => pet.type), grouped.get("Dog")
   groupBy(list: any, keyGetter: any) {
     const map = new Map();
@@ -74,7 +83,7 @@ class Tickets extends React.Component<{ history: any, match: any }, {
     return (<div className="tickets tickets-content">
       <MenuApp mode="home" history={this.props.history} onRefresh={() => this.loadData()} />
 
-     
+
       {(!this.state.tickets || !this.state.currencies) && (<div
         style={{
           position: 'absolute',
@@ -84,13 +93,43 @@ class Tickets extends React.Component<{ history: any, match: any }, {
         }}
       ><CircularProgress className="wait-auth" /></div>)}
 
-      
+
       <SnackAdd />
-      
+
+      <div className="events">
+        <Card className="main" >
+          <CardActionArea>
+            <CardMedia
+              className="app-card-media"
+              image={AppIcon}
+              title="logo NW"
+            />
+            <CardContent className="app-card-content">
+              <Typography gutterBottom variant="h5" component="h2">
+                Qu'est-ce que NiortWeb ?
+              </Typography>
+
+              <Typography variant="body2" color="textSecondary" component="p">
+                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                across all continents except Antarctica
+              </Typography>
+
+              <ul>
+                <li>
+                  <Chip color="primary" label="Format le midi" /> Sed rutrum id est et pellentesque. Sed sed fermentum magna, quis venenatis nunc. Nullam luctus, nibh nec egestas volutpat, tellus mauris placerat mauris.
+                </li>
+                <li>
+                  <Chip color="primary" label="Format le soir" /> Sed rutrum id est et pellentesque. Sed sed fermentum magna, quis venenatis nunc. Nullam luctus, nibh nec egestas volutpat, tellus mauris placerat mauris.
+                </li>
+              </ul>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </div>
 
     </div>);
   }
 }
 
 
-export default Tickets;
+export default Welcome;

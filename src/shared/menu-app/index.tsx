@@ -199,7 +199,7 @@ const MenuApp = (props: any) => {
             <img src={MyIconTypoIcon} alt="logo" />
           </div>
           <div className="install-title">
-            Traiding de cryptos pour particuliers !
+            NiortWeb App, suivez l'actu, inscription en ligne, replay
           </div>
         </div>
         <div className="install-actions">

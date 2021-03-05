@@ -2,7 +2,8 @@
 import { Configuration } from "./configuration";
 
 
-const DEV_API_BASEURL = 'http://localhost:5001/mykraken-f63e7/us-central1/api/api';
+//const DEV_API_BASEURL = 'http://localhost:5001/mykraken-f63e7/us-central1/api/api';
+const DEV_API_BASEURL = '/api-mock';
 const other: Configuration = {
     support: '',
     baseURL: 'https://home-trading.fabapp.fr',
@@ -10,9 +11,9 @@ const other: Configuration = {
     email:"ff.fremont.florent@gmail.com",
     fcmPublicVapidKey: 'BMdTaD5RfuNIq4RBKfXD7tIrx8Go4wyxRHt634GRUdgVy-UKm30oNyytDraUohe186pbnm7ngcs7BBY7it7CMwk',
     API: {
-        tickets: (id:any = '') => `${DEV_API_BASEURL}/tickets${id ? '/'+id: ''}`,
-        myProfil: () => `${DEV_API_BASEURL}/my-profil`,
-        currencies: () => `${DEV_API_BASEURL}/currencies`
+        tickets: (id:any = '') => `${DEV_API_BASEURL}/tickets${id ? '/'+id: ''}.json`,
+        myProfil: () => `${DEV_API_BASEURL}/my-profil.json`,
+        currencies: () => `${DEV_API_BASEURL}/currencies.json`
     },
     coinlib:{
         BTC: 'https://widget.coinlib.io/widget?type=chart&theme=light&coin_id=859&pref_coin_id=1506',
