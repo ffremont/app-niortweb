@@ -29,8 +29,10 @@ import pwaService from '../../services/pwa.service';
 import authService from '../../services/auth.service';
 import { User } from '../../models/User';
 import historyService from '../../services/history.service';
+import SendIcon from '@material-ui/icons/Send';
+import ForumIcon from '@material-ui/icons/Forum';
 import conf from '../../confs';
-import EmailIcon from '@material-ui/icons/Email';
+import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -142,12 +144,16 @@ const MenuApp = (props: any) => {
           </ListItem>)}
 
           <ListItem button key="soutenir" onClick={() => window.location.href = conf.soutenir}>
-            <ListItemIcon><HelpIcon /></ListItemIcon>
-            <ListItemText primary="Soutenir" secondary="" />
+            <ListItemIcon><EmojiObjectsIcon /></ListItemIcon>
+            <ListItemText primary="Soumettre un événement" secondary="" />
           </ListItem>
           <ListItem button key="contact" onClick={() => window.location.href = `mailo:${conf.email}`}>
-            <ListItemIcon><EmailIcon /></ListItemIcon>
-            <ListItemText primary="Contacter par email" secondary="" />
+            <ListItemIcon><SendIcon /></ListItemIcon>
+            <ListItemText primary="Envoyer un message" secondary="" />
+          </ListItem>
+          <ListItem button key="slack" onClick={() => window.location.href = `${conf.slack}`}>
+            <ListItemIcon><ForumIcon /></ListItemIcon>
+            <ListItemText primary="Canal Slack" secondary="" />
           </ListItem>
 
           {email && (<ListItem button key="logout" onClick={logout}>

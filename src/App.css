@@ -7,6 +7,12 @@
   pointer-events: none;
 }
 
+.backdrop{
+  z-index:1201 !important;
+  color: #fff !important;
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -44,6 +50,14 @@
 }
 .win-lose.lose input{
   color: #f44336;
+}
+
+.success-avatar{
+  background-color:#4caf50 !important;
+  color: #fafafa !important;
+}
+.warn-icon{
+  color:#ff5722;
 }
 
 @keyframes App-logo-spin {
