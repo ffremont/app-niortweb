@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import ShareIcon from '@material-ui/icons/Share';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -18,7 +18,6 @@ import Button from '@material-ui/core/Button';
 
 import './MenuApp.scss';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import HelpIcon from '@material-ui/icons/Help';
 import ClearIcon from '@material-ui/icons/Clear';
 import { grey } from '@material-ui/core/colors';
 import SyncIcon from '@material-ui/icons/Sync';
@@ -130,6 +129,15 @@ const MenuApp = (props: any) => {
     }
   }
 
+   const onClickShare = () =>{
+    if((window as any).navigator.share){
+      (window as any).navigator.share({
+        title: `NiortWeb - mon favori`,
+        text: `Rendez-vous sur "${window.location.href}"`,
+      }); // partage l'URL de MDN
+    }
+  }
+
   return (
     <div className={classes.root}>
       <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
@@ -143,11 +151,11 @@ const MenuApp = (props: any) => {
             <ListItemText primary="Connecté" secondary={email} />
           </ListItem>)}
 
-          <ListItem button key="soutenir" onClick={() => window.location.href = conf.soutenir}>
+          <ListItem button key="soumettre" component="a" href={`mailto:${conf.email}?subject=[app.NiortWeb.fr] Soumettre une idée d'événement`}>
             <ListItemIcon><EmojiObjectsIcon /></ListItemIcon>
             <ListItemText primary="Soumettre un événement" secondary="" />
           </ListItem>
-          <ListItem button key="contact" onClick={() => window.location.href = `mailo:${conf.email}`}>
+          <ListItem button key="contact"  component="a" href={`mailto:${conf.email}?subject=[app.NiortWeb.fr] Prise de contact`}>
             <ListItemIcon><SendIcon /></ListItemIcon>
             <ListItemText primary="Envoyer un message" secondary="" />
           </ListItem>
@@ -187,10 +195,10 @@ const MenuApp = (props: any) => {
                 aria-label="sync"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={() => { if(props.onRefresh) props.onRefresh();}}
+                onClick={onClickShare}
                 color="inherit"
               >
-                <SyncIcon />
+                <ShareIcon />
               </IconButton>
         </Toolbar>
       </AppBar>

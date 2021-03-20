@@ -11,18 +11,4 @@ export interface Contributor{
 
     
     comment:string;
-
-    /**
-     * Note qualité générale
-     */
-    note:number;
-    /**
-     * En savoir plus
-     */
-    findOutMore:boolean;
-
-    /**
-     * Prochain sujet souhaité
-     */
-    nextTopic?:string;
 }

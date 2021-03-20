@@ -15,6 +15,7 @@ import 'moment/locale/fr';
 import Error from './views/error';
 import historyService from './services/history.service';
 import Welcome from './views/welcome';
+import Register from './views/register';
 
 
 // @see https://material-ui.com/customization/palette/
@@ -45,8 +46,10 @@ class App extends React.Component<{}, {  }>{
             
             <PrivateRoute exact path="/" component={Welcome} />        
             <PrivateRoute exact path="/evenements" component={Welcome} />        
+            <PrivateRoute exact path="/evenements/:id" component={Welcome} /> 
+            <PrivateRoute exact path="/evenements/:id/inscription" component={Register} />        
 
-            <Route path="/error" component={Error} />
+            <Route path="/erreur" component={Error} />
             <Route path="*" component={NoMatch} />
           </Switch>
         </Router>

@@ -14,75 +14,72 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import AppIcon from '../../assets/images/banner-logo.png';
 import * as My from '../../models/Event';
-import { StateEnum } from '../../models/StateEnum';
-import { EventFormatEnum } from '../../models/EventFormatEnum';
-import { EventModeEnum } from '../../models/EventModeEnum';
-import ShareIcon from '@material-ui/icons/Share';
-import { TagEnum } from '../../models/TagEnum';
-import HistoryIcon from '@material-ui/icons/History';
-import CheckIcon from '@material-ui/icons/Check';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import eventStore from '../../stores/event';
+import eventService from '../../services/event.service';
+import { firstBy } from 'thenby';
+import conf from '../../confs';
+import EventCard from '../../shared/event-card';
+import Review from '../../shared/review';
+import YoutubeLive from '../../shared/youtube-live';
 
 class Welcome extends React.Component<{ history: any, match: any }, {
-  expanded: boolean, events: null | My.Event[]
+  expanded: boolean, events: null | My.Event[], openReview:boolean,event:null|My.Event, openYoutubeLive:boolean
 }>{
 
   state = {
-    expanded: false, events: [{
-      id: '007',
-      state: StateEnum.OK,
-      format: EventFormatEnum.SIMPLE,
-      mode: EventModeEnum.REMOTE_AND_PHYSICAL_CONF,
-      createdAt: (new Date()).getTime(),
-      scheduled: (new Date()).getTime() - 1000 * 3600 * 24 * 30,
-      speaker: {
-        firstname: 'Florent',
-        lastname: 'FREMONT',
-        email: 'ff.f@ff.fr',
-        job: 'Fullstack developer'
-      },
-      duration: 60,
-      image: 'https://res.cloudinary.com/dyuwlqafx/image/upload/v1615549320/app-niotweb/iStock-1029035836-e1575983057612.jpg',
-      title: 'Quest ce que lIA?',
-      tags: [TagEnum.IA],
-      description: '...',
-      allowMaxContributors: 20,
-      contributors: [],
-      youtubeLink:'https://...'
-    }]
+    expanded: false, events: null,openReview: false, event: null, openYoutubeLive: false
   };
-
-  componentWillUnmount() {
-  }
 
   componentDidMount() {
     historyService.on(window.location.pathname);
+    this.loadData()
+    .then(() => {
+      const id: string = this.props.match.params.id;
+      if(id && (window.location.hash === '#donner-un-avis')){
+        console.log('componentDidMount loaded');
+        setTimeout(() => this.setState({openReview:true, event: (this.state.events || []).find((e:any) => e.id === id) || null}),1000);
+      }
+    });
 
-    this.loadData();
+
+  }
+
+  componentDidUpdate() {
+    const id: string = this.props.match.params.id;
+    if (id && (window as any).document.getElementById(`${id}`))
+      (window as any).document.getElementById(`${id}`).scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
   }
 
   loadData() {
-    /*const orders = [TicketStateEnum.TO_SELL, TicketStateEnum.TO_BUY, TicketStateEnum.WAIT, TicketStateEnum.PLANNED, TicketStateEnum.SOLD];
-    Promise.all([ticketStore.load(), currencyStore.load()])
-      .then((data: any) => {
-        const tickets = data[0].map((t: Ticket) => {
-          const state = ticketStore.stateOf(t, data[1]);
-          return { ...t, state, order: orders.indexOf(state) }
-        });
-        tickets.sort(firstBy('order').thenBy('at', { direction: "desc" }))
-        this.setState({ tickets, currencies: data[1] });
-      });*/
+    return eventStore.load()
+      .then((events: My.Event[]) => {
+        events.map((e: any) => {
+          const et = eventService.typeOfEvent(e);
+          e.typeOfEvent = ['OPEN', 'SCHEDULED', 'PAST'].findIndex((t: string) => t === et);
+          return e;
+        }).sort(firstBy('typeOfEvent').thenBy('createdAt', { direction: "desc" }));
+
+        this.setState({ events });
+      });
   }
 
-  typeOfEvent(event:My.Event){
-    if(event.scheduled >= (new Date()).getTime() && event.state === StateEnum.OK){
-      return 'OPEN';
-    }else if(event.scheduled < (new Date()).getTime() && event.state === StateEnum.OK){
-      return 'PAST'
-    }else{
-      return 'SCHEDULED';
+
+
+  onClickShare(event: My.Event) {
+    if ((window as any).navigator.share) {
+      (window as any).navigator.share({
+        title: `NiortWeb - meetup "${event.title}"`,
+        text: `Infos, inscription et résumé sur ${conf.baseURL}/evenements/${event.id}`,
+      }); // partage l'URL de MDN
     }
+  }
+
+  /**
+   * Validation lorsqu'on donne l'avis
+   * @param event 
+   */
+  onValidateReview(event: My.Event){
+    console.log('on validate review please save !',event);
   }
 
   render() {
@@ -96,8 +93,22 @@ class Welcome extends React.Component<{ history: any, match: any }, {
         <CircularProgress color="inherit" />
       </Backdrop>)}
 
-
+      <Review 
+      event={this.state.event} 
+      open={this.state.openReview} 
+      onClose={() => {
+        (window as any).location.hash='';
+        this.setState({openReview : false});
+        
+      }}
+      onValidate={(e:any) => this.onValidateReview(e)} />
       <SnackAdd />
+
+      <YoutubeLive 
+      event={this.state.event} 
+      open={this.state.openYoutubeLive} 
+      onClose={() => this.setState({openYoutubeLive : false})}
+      />
 
       <div className="events">
         <Card className="main" >
@@ -137,57 +148,13 @@ class Welcome extends React.Component<{ history: any, match: any }, {
           </CardActionArea>
         </Card>
 
-        {(this.state.events || []).map(event => (<Card className="event" >
-          <CardActionArea>
-            <CardHeader
-              avatar={
-                ['OPEN','SCHEDULED', 'PAST'].filter(t => t === this.typeOfEvent(event)).map(t => (<Avatar className={t == 'OPEN' ? 'success-avatar': 'default'}>
-                  {t === 'OPEN' && (<CheckIcon></CheckIcon>)}
-                  {t === 'SCHEDULED' && (<ScheduleIcon></ScheduleIcon>)}
-                  {t === 'PAST' && (<HistoryIcon></HistoryIcon>)}
-                </Avatar>))
-              }
-              action={
-                <IconButton aria-label="settings">
-                  <ShareIcon />
-                </IconButton>
-              }
-              title={event.title}
-              subheader={(new Date(event.scheduled).toLocaleString())}
-            />
-            <CardMedia
-              className="app-card-media"
-              image={event.image}
-              title="logo NW"
-            />
-            <CardContent className="app-card-content">
-              <Typography variant="body2" color="textSecondary" component="p">
-                <Chip className="app-chip-item" color="secondary" label={event.format === EventFormatEnum.SIMPLE ? 'Format du midi' : 'Format du soir'} /> {event.tags.map(t => (<Chip color="primary" label={t} />))}
-              </Typography>
-              <Typography className="description" variant="body2" color="textSecondary" component="p">
-                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                across all continents except Antarctica
-              </Typography>
-
-
-            </CardContent>
-            {( (this.typeOfEvent(event) === 'OPEN' ) && ((event.allowMaxContributors - event.contributors.length)>0) )&&(<CardActions>
-              <Button>S'inscrire ({(event.allowMaxContributors - event.contributors.length) } place.s restante.s)</Button>
-            </CardActions>)}
-
-            {( (this.typeOfEvent(event) === 'OPEN' ) && ((event.allowMaxContributors - event.contributors.length)<=0) )&&(<CardActions>
-              <Button disabled={true}>S'inscrire (complet)</Button>
-
-              {event.youtubeLink && (<Button target="_blank" href={event.youtubeLink}>Live Youtube</Button>)}
-            </CardActions>)}
-
-            { (this.typeOfEvent(event) === 'PAST' ) &&( <CardActions>
-              <Button startIcon={<NotificationsActiveIcon className="warn-icon" />}>Donner avis</Button>
-              <Button>Accès résumé</Button>
-              
-            </CardActions>)}
-          </CardActionArea>
-        </Card>))}
+        {(this.state.events || []).map((evt: any) => (<EventCard 
+        key={evt.id} 
+        readonly={false} 
+        onReview={() => this.setState({openReview:true, event: evt})}
+        onYoutubeLive={() => this.setState({openYoutubeLive:true, event: evt})}
+        event={evt} 
+        history={this.props.history} />))}
       </div>
 
     </div>);

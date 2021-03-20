@@ -4,6 +4,7 @@ import { EventFormatEnum } from "./EventFormatEnum";
 import { Speaker } from "./Speaker";
 import { TagEnum } from "./TagEnum";
 import { StateEnum } from "./StateEnum";
+import { Review } from "./Review";
 
 export interface Event{
     /**
@@ -40,6 +41,7 @@ export interface Event{
      * Infos du speaker
      */
     speaker:Speaker;
+    
 
     /**
      * Si web conf, le lien
@@ -50,6 +52,11 @@ export interface Event{
      * lien youtbue live
      */
     youtubeLink?:string;
+
+    /**
+     * Lien du résumé
+     */
+    resumeLink?:string;
 
     /**
      * Durée en minute de l'événement
@@ -86,5 +93,10 @@ export interface Event{
      * Ensemble des participants à l'événément
      */
     contributors: Contributor[];
+
+    /**
+     * Liste des avis
+     */
+    reviews: Review[];
 
 }

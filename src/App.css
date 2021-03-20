@@ -52,12 +52,46 @@
   color: #f44336;
 }
 
+
+
 .success-avatar{
   background-color:#4caf50 !important;
   color: #fafafa !important;
 }
+
 .warn-icon{
   color:#ff5722;
+}
+.Mui-disabled .warn-icon{
+  color:inherit;
+}
+
+.app-dialog .app-formcontrol fieldset{
+  margin-bottom: 0px;
+  margin-left:0;
+}
+
+.title-dialog-content-text{
+  font-weight: bold !important;
+  font-size: 1.2rem !important;
+}
+
+.app-dialog .icon-area{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.app-dialog .icon-area .icon{
+  font-size: 5rem;
+}
+.app-formcontrol.centered{
+  text-align: center;
+}
+.app-dialog .app-formcontrol +.app-formcontrol {
+  margin-top: 8px;
+}
+.app-dialog .youtube-icon{
+  color:grey; 
 }
 
 @keyframes App-logo-spin {

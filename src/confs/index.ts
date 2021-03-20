@@ -20,7 +20,7 @@ const other: Configuration = {
 const API_BASEURL = '/api';
 const prod: Configuration = {
     support: '',
-    baseURL: 'https://home-trading.fabapp.fr',
+    baseURL: 'https://app.niortweb.fr',
     email:"ff.fremont.florent@gmail.com",
     soutenir: 'https://www.paypal.me/ffremont',
     fcmPublicVapidKey: 'BMdTaD5RfuNIq4RBKfXD7tIrx8Go4wyxRHt634GRUdgVy-UKm30oNyytDraUohe186pbnm7ngcs7BBY7it7CMwk',

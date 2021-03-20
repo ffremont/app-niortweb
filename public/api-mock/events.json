@@ -1,0 +1,22 @@
+[{
+  "id": "007",
+  "state": "OK",
+  "format": "SIMPLE",
+  "mode": "REMOTE_ONLY_CONF",
+  "createdAt": 1615626258122,
+  "scheduled": 1613626258122,
+  "speaker": {
+    "firstname": "Florent",
+    "lastname": "FREMONT",
+    "email": "ff.f@ff.fr",
+    "job": "Fullstack developer"
+  },
+  "duration": 60,
+  "image": "https://res.cloudinary.com/dyuwlqafx/image/upload/v1615549320/app-niotweb/iStock-1029035836-e1575983057612.jpg",
+  "title": "Quest ce que lIA?",
+  "tags": ["IA"],
+  "description": "Rendez-vous de questions et des réponses autour de l'IA",
+  "allowMaxContributors": -1,
+  "contributors": [],
+  "youtubeLink": "https://..."
+}]

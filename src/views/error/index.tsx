@@ -16,7 +16,7 @@ function Error(props: any) {
       <div className="area">
         <BugReportIcon />
         <Typography variant="h4">Une erreur est survenue</Typography>
-        <Button color="secondary" onClick={() => window.open(conf.support)}>Déposer un ticket</Button>
+        <Button color="secondary" href={`mailto:${conf.email}?subject=Incident sur app.niortweb.fr`} target="_blank">Envoyer un ticket</Button>
       </div>
     </div>
   );
