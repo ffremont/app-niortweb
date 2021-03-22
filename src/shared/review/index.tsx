@@ -71,7 +71,7 @@ const Review = (props: any) => {
       onClose={handleClose}
     >
       <DialogTitle id="alert-dialog-title">Donner son avis</DialogTitle>
-      <DialogContent>
+      <DialogContent className="app-dialog-content">
         <div className="icon-area">
           <HowToVoteIcon className="icon" />
         </div>

@@ -131,6 +131,7 @@ function EventCard(props: any) {
                   Donner avis
               </Button>
               <Button disabled={!event.resumeLink} href={event.resumeLink} target="_blank">Accès résumé</Button>
+              {event.youtubeLink &&(<Button href={event.youtubeLink} target="_blank">Replay</Button>)}
               
             </CardActions>)}
           </CardActionArea>

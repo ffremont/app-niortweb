@@ -93,6 +93,9 @@
 .app-dialog .youtube-icon{
   color:grey; 
 }
+.app-dialog .app-dialog-content{
+  padding-top:0px;
+}
 
 @keyframes App-logo-spin {
   from {

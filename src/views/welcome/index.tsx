@@ -16,6 +16,7 @@ import AppIcon from '../../assets/images/banner-logo.png';
 import * as My from '../../models/Event';
 import eventStore from '../../stores/event';
 import eventService from '../../services/event.service';
+import authService from '../../services/auth.service';
 import { firstBy } from 'thenby';
 import conf from '../../confs';
 import EventCard from '../../shared/event-card';
@@ -36,8 +37,13 @@ class Welcome extends React.Component<{ history: any, match: any }, {
     .then(() => {
       const id: string = this.props.match.params.id;
       if(id && (window.location.hash === '#donner-un-avis')){
-        console.log('componentDidMount loaded');
-        setTimeout(() => this.setState({openReview:true, event: (this.state.events || []).find((e:any) => e.id === id) || null}),1000);
+        setTimeout(() => {
+          if(authService.isAuth){
+            this.setState({openReview:true, event: (this.state.events || []).find((e:any) => e.id === id) || null});
+          }else{
+            this.props.history.push('/login');
+          }
+        },1000);
       }
     });
 
@@ -80,6 +86,14 @@ class Welcome extends React.Component<{ history: any, match: any }, {
    */
   onValidateReview(event: My.Event){
     console.log('on validate review please save !',event);
+  }
+
+  onReview(evt:My.Event){
+    if(authService.isAuth){
+      this.setState({openReview:true, event: evt})
+    }else{
+      this.props.history.push('/login');
+    }
   }
 
   render() {
@@ -150,7 +164,7 @@ class Welcome extends React.Component<{ history: any, match: any }, {
         {(this.state.events || []).map((evt: any) => (<EventCard 
         key={evt.id} 
         readonly={false} 
-        onReview={() => this.setState({openReview:true, event: evt})}
+        onReview={() => this.onReview(evt)}
         onYoutubeLive={() => this.setState({openYoutubeLive:true, event: evt})}
         event={evt} 
         history={this.props.history} />))}
