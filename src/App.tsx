@@ -44,9 +44,10 @@ class App extends React.Component<{}, {  }>{
 
             <Route path="/login" component={Login} />
             
-            <PrivateRoute exact path="/" component={Welcome} />        
-            <PrivateRoute exact path="/evenements" component={Welcome} />        
-            <PrivateRoute exact path="/evenements/:id" component={Welcome} /> 
+            
+            <Route exact path="/" component={Welcome} />        
+            <Route exact path="/evenements" component={Welcome} />        
+            <Route exact path="/evenements/:id" component={Welcome} /> 
             <PrivateRoute exact path="/evenements/:id/inscription" component={Register} />        
 
             <Route path="/erreur" component={Error} />

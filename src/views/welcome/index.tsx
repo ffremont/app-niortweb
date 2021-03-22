@@ -131,16 +131,15 @@ class Welcome extends React.Component<{ history: any, match: any }, {
             <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
               <CardContent className="app-card-content">
                 <Typography variant="body2" color="textSecondary" component="p">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                  across all continents except Antarctica
+                NiortWeb est un meetup collaboratif qui a pour objectif de faire découvrir et d’échanger autour de thématiques web. Le speaker / animateur partagera la moitier de son temps avec les participants afin de construire la fin du meetup sur la base des expériences de chacun.
               </Typography>
 
                 <ul>
                   <li>
-                    <Chip color="primary" label="Format le midi" /> Sed rutrum id est et pellentesque. Sed sed fermentum magna, quis venenatis nunc. Nullam luctus, nibh nec egestas volutpat, tellus mauris placerat mauris.
+                    <Chip color="primary" label="Format le midi" /> De 12h30 à 13h30 en petit groupe, généralement 50% de présentation et 50% pour l'échange
                 </li>
                   <li>
-                    <Chip color="primary" label="Format le soir" /> Sed rutrum id est et pellentesque. Sed sed fermentum magna, quis venenatis nunc. Nullam luctus, nibh nec egestas volutpat, tellus mauris placerat mauris.
+                    <Chip color="primary" label="Format le soir" /> De 18h à 19h30, présentation plus élaborée
                 </li>
                 </ul>
               </CardContent>

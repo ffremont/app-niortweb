@@ -31,10 +31,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "cp -r functions/src/models/* src/models/ && react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && firebase deploy --only hosting:app-niortweb"
+    "deploy": "npm version patch && npm run build && firebase deploy --only hosting"
   },
   "eslintConfig": {
     "extends": [

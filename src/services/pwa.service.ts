@@ -20,7 +20,7 @@ export class PwaService {
         });
 
         window.addEventListener('beforeinstallprompt', (e:any) =>{
-            console.log('Can install PWA and call prompt()');
+            //console.log('Can install PWA and call prompt()');
             e.preventDefault();
             
             this.deferredPrompt = e;

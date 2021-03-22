@@ -27,7 +27,7 @@ class Login extends React.Component<{history:any,location:any}, {loading:boolean
   state = {
     loading: true, // waiting onAuthStateChanged
     isSignedIn: false, // Local signed-in state.
-    from: '/tickets'
+    from: '/'
   };
 
   private sign(provider:any){
@@ -66,7 +66,7 @@ class Login extends React.Component<{history:any,location:any}, {loading:boolean
       if(this.props.location.state){
         this.setState({from: this.props.location.state.fromPathname});
       }else{
-        this.setState({from: '/tickets'});
+        this.setState({from: '/evenements'});
       }      
     }
   }
