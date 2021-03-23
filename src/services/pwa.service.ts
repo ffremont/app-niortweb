@@ -47,6 +47,33 @@ export class PwaService {
         }
     }
 
+    /**
+     * Notification 
+     * @param title 
+     * @param body 
+     * @param url 
+     */
+    notify(title:string, body:string, url:string|null = null){
+        const options = {
+            body: body,
+            icon: '/logo192.png',
+            data: {
+                url: url === null ? window.location.href : url
+            }
+        };
+
+        if(Notification.permission === "granted"){
+             new Notification(title, options);
+        }else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(function (permission) {
+                // If the user accepts, let's create a notification
+                if (permission === "granted") {
+                    new Notification(title, options);
+                }
+            });
+        }
+    }
+
     close(){
         this.deferredPrompt = null;
         this.beforeinstallprompt.next(false); 

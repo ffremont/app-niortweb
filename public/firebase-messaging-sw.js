@@ -11,14 +11,13 @@ const hashCode = (s) => {
 
 if (firebase) {
     firebase.initializeApp({
-      apiKey: "AIzaSyBhKGZb-0hVnWkRhImIaywwJ9eZIXRDzpI",
-      authDomain: "app.ici-drive.fr",
-      databaseURL: "https://ici-drive.firebaseio.com",
-      projectId: "ici-drive",
-      storageBucket: "ici-drive.appspot.com",
-      messagingSenderId: "197845039865",
-      appId: "1:197845039865:web:8c0b37d09dbff116248028",
-      measurementId: "G-DWMZEW5DNP"
+      apiKey: "AIzaSyAp9VBbyvEqiqIUuXfymgQhSbxfS3iOxEI",
+        authDomain: "app.niortweb.fr",
+        databaseURL: "https://niortweb.firebaseio.com",
+        projectId: "niortweb",
+        storageBucket: "niortweb.appspot.com",
+        messagingSenderId: "342355226765",
+        appId: "1:342355226765:web:6254172342866b207272c4"
     });
     
     const messaging = firebase.messaging(); 

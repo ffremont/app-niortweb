@@ -128,9 +128,9 @@ function EventCard(props: any) {
               <Button
                 disabled={ !!(event.reviews || []).find((r:any) => r.email === email) } 
                 onClick={() => props.onReview ? props.onReview(event) : null} startIcon={<NotificationsActiveIcon className="warn-icon" />}>
-                  Donner avis
+                  Avis
               </Button>
-              <Button disabled={!event.resumeLink} href={event.resumeLink} target="_blank">Accès résumé</Button>
+              <Button disabled={!event.resumeLink} href={event.resumeLink} target="_blank">Résumé</Button>
               {event.youtubeLink &&(<Button href={event.youtubeLink} target="_blank">Replay</Button>)}
               
             </CardActions>)}

@@ -14,9 +14,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import AppIcon from '../../assets/images/banner-logo.png';
 import * as My from '../../models/Event';
-import eventStore from '../../stores/event';
+import eventStore, {EventStore} from '../../stores/event';
 import eventService from '../../services/event.service';
 import authService from '../../services/auth.service';
+import pwaService from '../../services/pwa.service';
 import { firstBy } from 'thenby';
 import conf from '../../confs';
 import EventCard from '../../shared/event-card';
@@ -85,7 +86,19 @@ class Welcome extends React.Component<{ history: any, match: any }, {
    * @param event 
    */
   onValidateReview(event: My.Event){
-    console.log('on validate review please save !',event);
+    EventStore.update(event)
+    .then(() => {
+      pwaService.notify(
+        `Avis donné !`,
+        `🗳🙏 Je vote, tu votes, nous progressons, merci de votre participation`
+      );
+    })
+    .catch(() => {
+      pwaService.notify(
+        `⚠ Une erreur est survenue`,
+        `Oups ! Votre n'avis n'a pu être donné, veuillez réitérer ultérieurement, merci de votre compréhension.`
+      );
+    })
   }
 
   onReview(evt:My.Event){
