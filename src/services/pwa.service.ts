@@ -62,16 +62,10 @@ export class PwaService {
             }
         };
 
-        if(Notification.permission === "granted"){
-             new Notification(title, options);
-        }else if (Notification.permission !== "denied") {
-            Notification.requestPermission().then(function (permission) {
-                // If the user accepts, let's create a notification
-                if (permission === "granted") {
-                    new Notification(title, options);
-                }
-            });
-        }
+        (window as any).postMessage({
+            name:'push',
+            ...options
+        });
     }
 
     close(){

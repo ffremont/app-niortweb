@@ -4,6 +4,7 @@ import MenuApp from '../../shared/menu-app';
 import EventCard from '../../shared/event-card';
 import {EventStore} from '../../stores/event';
 import eventStore from '../../stores/event';
+import pwaService from '../../services/pwa.service';
 import notifStore from '../../stores/notif';
 import './Register.scss';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -50,7 +51,10 @@ class Register extends React.Component<{ history: any, location: any, match: any
       EventStore.update(event)
       .then(() => {
         this.props.history.push('/');
-        notifStore.set({message:'Vous êtes inscrit.e', type:NotifType.MEMO});
+        pwaService.notify(
+          `Inscription effectuée`,
+          `✅ Rendez-vous le ${(new Date(event.scheduled)).toLocaleString()} pour "${event.title}"`
+        )
       }).catch(() => {
         this.props.history.push('/erreur');
       })

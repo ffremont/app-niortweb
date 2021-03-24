@@ -90,7 +90,7 @@ class Welcome extends React.Component<{ history: any, match: any }, {
     .then(() => {
       pwaService.notify(
         `Avis donné !`,
-        `🗳🙏 Je vote, tu votes, nous progressons, merci de votre participation`
+        `🗳🙏 Je vote, tu votes, nous progressons, merci de votre participation.`
       );
     })
     .catch(() => {
