@@ -1,4 +1,5 @@
 export interface User{
     email:string,
-    fcm?:string
+    fcm?:string,
+    isAdmin?:boolean
 }

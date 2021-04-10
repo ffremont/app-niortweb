@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import FreeBreakfastIcon from '@material-ui/icons/FreeBreakfast';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MyIconTypoIcon from '../../assets/images/logo512.png';
 import Button from '@material-ui/core/Button';
@@ -80,6 +81,7 @@ const MenuApp = (props: any) => {
   const [mode, setMode] = useState('full');
   const [auth] = useState(false);
   const [canGoBack, setCanGoBack] = useState(false);
+  const [administrator, setAdministrator] = useState(false);
   const [email, setEmail] = useState('');
   const [goBackPath, setGoBackPath] = useState('');
   const [open, setOpen] = useState(false);
@@ -110,8 +112,10 @@ const MenuApp = (props: any) => {
         setShowInstall(true)
     });
     const subMyProfil = myProfilStore.subscribe((user: User) => {
-      if (user && user.email)
+      if (user && user.email){
         setEmail(user.email.substr(0, user.email.indexOf('@')));
+        setAdministrator(!!user.isAdmin);
+      }
     })
     return () => {
       subHistory.unsubscribe();
@@ -199,6 +203,16 @@ const MenuApp = (props: any) => {
                 color="inherit"
               >
                 <ShareIcon />
+              </IconButton>
+            <IconButton
+                aria-label="sync"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                target="_blank"
+                href={conf.API.events()}
+                color="inherit"
+              >
+                <FreeBreakfastIcon />
               </IconButton>
         </Toolbar>
       </AppBar>
