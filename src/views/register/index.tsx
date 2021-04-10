@@ -95,7 +95,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
             name="fullName"
             fullWidth
             label="Prénom et nom"
-            placeholder="John Smith"
+            placeholder="Pierre Azerty"
             required
 
             InputProps={{
@@ -114,7 +114,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
             label="Email"
             name="email"
             type="email"
-            placeholder="john.smith@any.com"
+            placeholder="pierre.azerty@any.com"
             required
             InputProps={{
               startAdornment: (

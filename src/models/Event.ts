@@ -41,6 +41,11 @@ export interface Event{
      * Infos du speaker
      */
     speaker:Speaker;
+
+    /**
+     * Adresse de l'endroit si présentiel
+     */
+     where: string;
     
 
     /**

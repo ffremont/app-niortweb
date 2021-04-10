@@ -15,7 +15,7 @@ export class AuthService{
         this.subUser.next(user);
 
         // provoque la récupération du profil dès qu'on est connecté
-        //myProfilStore.set(user);
+        myProfilStore.set(user);
         //return;
        return await myProfilStore.load();
            

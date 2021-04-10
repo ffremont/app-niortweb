@@ -56,16 +56,19 @@ export class PwaService {
     notify(title:string, body:string, url:string|null = null){
         const options = {
             body: body,
+            title,
             icon: '/logo192.png',
             data: {
-                url: url === null ? window.location.href : url
+                url: url ? url : window.location.href
             }
         };
 
-        (window as any).postMessage({
-            name:'push',
-            ...options
-        });
+        navigator.serviceWorker.ready.then((registration:any) => {
+            registration.active.postMessage({
+                name:'push',
+                ...options
+            });
+          });
     }
 
     close(){

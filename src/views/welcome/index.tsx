@@ -23,6 +23,7 @@ import conf from '../../confs';
 import EventCard from '../../shared/event-card';
 import Review from '../../shared/review';
 import YoutubeLive from '../../shared/youtube-live';
+import { Subscription } from 'rxjs';
 
 class Welcome extends React.Component<{ history: any, match: any }, {
   expanded: boolean, events: null | My.Event[], openReview:boolean,event:null|My.Event, openYoutubeLive:boolean
@@ -32,9 +33,21 @@ class Welcome extends React.Component<{ history: any, match: any }, {
     expanded: false, events: null,openReview: false, event: null, openYoutubeLive: false
   };
 
+  private _subEvents :Subscription|null = null;
+
   componentDidMount() {
     historyService.on(window.location.pathname);
-    this.loadData()
+    this._subEvents = eventStore.subscribe((events: any) => {
+      events.map((e: any) => {
+        const et = eventService.typeOfEvent(e);
+        e.typeOfEvent = ['OPEN', 'SCHEDULED', 'PAST'].findIndex((t: string) => t === et);
+        return e;
+      }).sort(firstBy('typeOfEvent').thenBy('createdAt', { direction: "desc" }));
+
+      this.setState({ events });
+    });
+
+    eventStore.load()
     .then(() => {
       const id: string = this.props.match.params.id;
       if(id && (window.location.hash === '#donner-un-avis')){
@@ -47,8 +60,10 @@ class Welcome extends React.Component<{ history: any, match: any }, {
         },1000);
       }
     });
+  }
 
-
+  componentWillUnmount(){
+    if(this._subEvents) this._subEvents.unsubscribe();
   }
 
   componentDidUpdate() {
@@ -56,21 +71,6 @@ class Welcome extends React.Component<{ history: any, match: any }, {
     if (id && (window as any).document.getElementById(`${id}`))
       (window as any).document.getElementById(`${id}`).scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
   }
-
-  loadData() {
-    return eventStore.load()
-      .then((events: My.Event[]) => {
-        events.map((e: any) => {
-          const et = eventService.typeOfEvent(e);
-          e.typeOfEvent = ['OPEN', 'SCHEDULED', 'PAST'].findIndex((t: string) => t === et);
-          return e;
-        }).sort(firstBy('typeOfEvent').thenBy('createdAt', { direction: "desc" }));
-
-        this.setState({ events });
-      });
-  }
-
-
 
   onClickShare(event: My.Event) {
     if ((window as any).navigator.share) {
@@ -109,12 +109,13 @@ class Welcome extends React.Component<{ history: any, match: any }, {
     }
   }
 
+  onRefresh(){
+    eventStore.load();
+  }
+
   render() {
-
     return (<div className="tickets tickets-content">
-      <MenuApp mode="home" history={this.props.history} onRefresh={() => this.loadData()} />
-
-
+      <MenuApp mode="home" history={this.props.history} onRefresh={() => this.onRefresh()} />
 
       {this.state.events === null && (<Backdrop className="backdrop" open={true}>
         <CircularProgress color="inherit" />

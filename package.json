@@ -16,6 +16,7 @@
     "@types/react-dom": "^16.9.10",
     "@types/react-router-dom": "^5.1.6",
     "axios": "^0.21.0",
+    "calendar-link": "^2.0.16",
     "firebase": "^8.1.1",
     "moment": "^2.29.1",
     "node-sass": "^4.0.0",

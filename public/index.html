@@ -65,7 +65,7 @@
         navigator.serviceWorker.register('/sw.js', {
           scope: '/'
         })
-        .then(() => console.log('sw registered'))
+        .then((w) => console.log('sw registered',w))
         .catch(e => console.error(e));
       }
     </script>

@@ -17,6 +17,9 @@ import PeopleIcon from '@material-ui/icons/People';
 import myProfilStore from '../../stores/my-profil';
 import { Contributor } from '../../models/Contributor';
 import { Event } from '../../models/Event';
+import eventStore, { EventStore } from '../../stores/event';
+import pwaService from '../../services/pwa.service';
+import { google } from "calendar-link";
 
 function EventCard(props: any) {
   historyService.on(window.location.pathname);
@@ -62,8 +65,19 @@ function EventCard(props: any) {
   }
 
   const unregister = (event: Event) => {
-    if(window.confirm(`Cofirmez-vous votre désinscription à '${event.title}' ?`)){
-        // todo unregister
+    if(window.confirm(`Confirmez-vous votre désinscription à '${event.title}' ?`)){
+      event.contributors = event.contributors.filter(c => c.email !== email);
+      EventStore.update(event)
+      .then(() => {
+        console.log('ok');
+        eventStore.load();
+        pwaService.notify(
+          `Désinscription effectuée`,
+          `✅ Vous vous êtes bien désinscrits : "${event.title}"`
+        )
+      }).catch(() => {
+        props.history.push('/erreur');
+      })
     }
   }
 
@@ -101,6 +115,10 @@ function EventCard(props: any) {
               <Typography className="description" variant="body2" color="textSecondary" component="p">
                 {event.description}
               </Typography>
+
+              {event.where && (<Typography className="description speaker" variant="body2" color="textSecondary" component="p">
+                Lieu / comment : {event.where}
+              </Typography>)}
               <Typography className="description speaker" variant="body2" color="textSecondary" component="p">
                 Animation : {event.speaker.firstname} {event.speaker.lastname} {event.speaker.job}
               </Typography>
@@ -121,7 +139,14 @@ function EventCard(props: any) {
             </CardActions>)}
             {isRegistered && !readonly &&  (eventService.typeOfEvent(event) === 'OPEN' ) && (<CardActions className="registered-card-actions">
               <Button onClick={() => unregister(event)}>Se désinscrire</Button>
+              <Button target="_blank" href={google({
+                title: event.title,
+                description: event.description,
+                start: event.scheduled,
+                duration: [1, "hour"],
+              })}>+ Agenda</Button>
             </CardActions>)}
+           
 
 
             {!readonly &&  (eventService.typeOfEvent(event) === 'PAST' ) &&( <CardActions>

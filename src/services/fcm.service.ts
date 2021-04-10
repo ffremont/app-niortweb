@@ -25,7 +25,6 @@ export class FcmService {
                 if (this.messaging.getToken)
                     this.messaging.getToken().then((t: string) => {
                         this.fcm = t;
-                        console.log(t);
                     });
 
                 
