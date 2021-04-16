@@ -17,6 +17,7 @@ import historyService from './services/history.service';
 import Welcome from './views/welcome';
 import Register from './views/register';
 import EmailCheck from './views/email-check';
+import Widget from './views/widget';
 
 
 // @see https://material-ui.com/customization/palette/
@@ -44,6 +45,8 @@ class App extends React.Component<{}, {  }>{
             {/*<Route exact path="/" render={(routeProps) => <Makers {...routeProps} />} />*/}
 
             <Route path="/login" component={Login} />
+
+            <Route path="/widget" component={Widget} />
             
             <Route path="/email-check" component={EmailCheck} /> 
             

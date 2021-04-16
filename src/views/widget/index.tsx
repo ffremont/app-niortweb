@@ -1,8 +1,7 @@
 import React from 'react';
-import './Welcome.scss';
-import MenuApp from '../../shared/menu-app';
+import './Widget.scss';
 import historyService from '../../services/history.service';
-import { Avatar, Backdrop, Button, CardActions, CardHeader, Chip, CircularProgress } from '@material-ui/core';
+import {  Backdrop, Button, CardActions, CardHeader, Chip, CircularProgress } from '@material-ui/core';
 import SnackAdd from '../../shared/snack-add';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -19,13 +18,12 @@ import eventService from '../../services/event.service';
 import authService from '../../services/auth.service';
 import pwaService from '../../services/pwa.service';
 import { firstBy } from 'thenby';
-import conf from '../../confs';
 import EventCard from '../../shared/event-card';
 import Review from '../../shared/review';
 import YoutubeLive from '../../shared/youtube-live';
 import { Subscription } from 'rxjs';
 
-class Welcome extends React.Component<{ history: any, match: any }, {
+class Widget extends React.Component<{ history: any, match: any }, {
   expanded: boolean, events: null | My.Event[], openReview:boolean,event:null|My.Event, openYoutubeLive:boolean
 }>{
 
@@ -38,7 +36,6 @@ class Welcome extends React.Component<{ history: any, match: any }, {
   componentDidMount() {
     historyService.on(window.location.pathname);
     this._subEvents = eventStore.subscribe((events: any) => {
-      
       const myEvents = events.map((e: any) => {
         const et = eventService.typeOfEvent(e);
         e.typeOfEvent = ['OPEN', 'SCHEDULED', 'PAST'].findIndex((t: string) => t === et);
@@ -50,38 +47,11 @@ class Welcome extends React.Component<{ history: any, match: any }, {
       this.setState({ events:myEvents });
     });
 
-    eventStore.load()
-    .then(() => {
-      const id: string = this.props.match.params.id;
-      if(id && (window.location.hash === '#donner-un-avis')){
-        setTimeout(() => {
-          if(authService.isAuth){
-            this.setState({openReview:true, event: (this.state.events || []).find((e:any) => e.id === id) || null});
-          }else{
-            this.props.history.push('/login');
-          }
-        },1000);
-      }
-    });
+    eventStore.load();
   }
 
   componentWillUnmount(){
     if(this._subEvents) this._subEvents.unsubscribe();
-  }
-
-  componentDidUpdate() {
-    const id: string = this.props.match.params.id;
-    if (id && (window as any).document.getElementById(`${id}`))
-      (window as any).document.getElementById(`${id}`).scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
-  }
-
-  onClickShare(event: My.Event) {
-    if ((window as any).navigator.share) {
-      (window as any).navigator.share({
-        title: `NiortWeb - meetup "${event.title}"`,
-        text: `Infos, inscription et résumé sur ${conf.baseURL}/evenements/${event.id}`,
-      }); // partage l'URL de MDN
-    }
   }
 
   /**
@@ -112,13 +82,8 @@ class Welcome extends React.Component<{ history: any, match: any }, {
     }
   }
 
-  onRefresh(){
-    eventStore.load();
-  }
-
   render() {
     return (<div className="tickets tickets-content">
-      <MenuApp mode="home" history={this.props.history} onRefresh={() => this.onRefresh()} />
 
       {this.state.events === null && (<Backdrop className="backdrop" open={true}>
         <CircularProgress color="inherit" />
@@ -142,48 +107,13 @@ class Welcome extends React.Component<{ history: any, match: any }, {
       />
 
       <div className="events">
-        <Card className="main" >
-          <CardActionArea>
-            <CardMedia
-              className="app-card-media"
-              image={AppIcon}
-              title="logo NW"
-            />
-            <CardActions disableSpacing>
-              <Button>Qu'est-ce que NiortWeb ?</Button>
-
-              <IconButton
-                className={this.state.expanded ? 'expandOpen' : ''}
-                onClick={() => this.setState({ expanded: !this.state.expanded })}
-              >
-                <ExpandMoreIcon />
-              </IconButton>
-            </CardActions>
-            <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-              <CardContent className="app-card-content">
-                <Typography variant="body2" color="textSecondary" component="p">
-                NiortWeb est un meetup collaboratif qui a pour objectif de faire découvrir et d’échanger autour de thématiques web. Le speaker / animateur partagera la moitier de son temps avec les participants afin de construire la fin du meetup sur la base des expériences de chacun.
-              </Typography>
-
-                <ul>
-                  <li>
-                    <Chip color="primary" label="Format le midi" /> De 12h30 à 13h30 en petit groupe, généralement 50% de présentation et 50% pour l'échange
-                </li>
-                  <li>
-                    <Chip color="primary" label="Format le soir" /> De 18h à 19h30, présentation plus élaborée
-                </li>
-                </ul>
-              </CardContent>
-            </Collapse>
-          </CardActionArea>
-        </Card>
-
         {(this.state.events || []).map((evt: any) => (<EventCard 
         key={evt.id} 
-        readonly={false} 
+        readonly={true} 
         onReview={() => this.onReview(evt)}
         onYoutubeLive={() => this.setState({openYoutubeLive:true, event: evt})}
         event={evt} 
+        onClick={() => this.props.history.push(`/evenements/${evt.id}`)}
         history={this.props.history} />))}
       </div>
 
@@ -192,4 +122,4 @@ class Welcome extends React.Component<{ history: any, match: any }, {
 }
 
 
-export default Welcome;
+export default Widget;

@@ -31,9 +31,8 @@ function EventCard(props: any) {
 
 
   React.useEffect(() => {
-    console.log(props.event);
-      setEvent(props.event);
-      setIsRegistered(props.event.contributors.findIndex((c:Contributor) => c.email === email) > -1);
+    setEvent(props.event);
+    setIsRegistered(props.event.contributors.findIndex((c:Contributor) => c.email === email) > -1);
   }, [props.event]);
 
 
@@ -54,11 +53,11 @@ function EventCard(props: any) {
 
   const labelOfMode = (mode:string) =>{
     if(mode === 'REMOTE_ONLY_CONF'){
-      return 'A distance uniquement';
+      return 'Distance uniquement';
     }else if(mode === 'REMOTE_AND_PHYSICAL_CONF'){
-      return 'A distance et présentiel'
+      return 'Distance et présentiel'
     }else if(mode === 'PHYSICAL_CONF'){
-      return 'En présentiel uniquement'
+      return 'Présentiel uniquement'
     }else{
       return null;
     }
@@ -82,7 +81,7 @@ function EventCard(props: any) {
   }
 
   return (
-    <Card className="event" key={'ec'+event.id} id={event.id} >
+    <Card className="event" key={'ec'+event.id} id={event.id} onClick={() => props.onClick ? props.onClick() : null } >
           <CardActionArea>
             <CardHeader key={'ec'+event.id}
               avatar={
@@ -112,7 +111,7 @@ function EventCard(props: any) {
                 {(labelOfMode(event.mode) !== null) && (<Chip color="primary" className="app-chip-item" label={labelOfMode(event.mode)} />)}
                 {event.tags.map((t:any) => (<Chip key={t} color="primary" className="app-chip-item" label={t} />))}
               </Typography>
-              <Typography className="description" variant="body2" color="textSecondary" component="p">
+              <Typography className="event-description description" variant="body2" color="textSecondary" component="p">
                 {event.description}
               </Typography>
 

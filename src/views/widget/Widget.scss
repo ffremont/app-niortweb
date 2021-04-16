@@ -1,0 +1,50 @@
+.win-chip{
+    float:right;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.app-card-media {
+    height: 140px;
+    background-color: #00b7ff;
+}
+.main .app-card-media{
+    background-size: contain !important;
+}
+
+.main .app-card-content{
+    padding:0 10px 10px 10px;
+}
+
+.main+.event{
+    margin-top:20px;
+}
+.event + .event{
+    margin-top:20px;
+}
+
+.description{
+    margin-top:10px;
+}
+
+.expandOpen{
+    transform: rotate(180deg);
+}
+
+.events{
+    padding: 10px 20px;
+}
+
+.app-card-content{
+    ul{
+        padding-left:10px;
+        li{
+            list-style: none;
+        }
+
+        li+li{
+            margin-top:8px;
+        }
+    }
+}
+
