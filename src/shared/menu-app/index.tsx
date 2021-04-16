@@ -204,7 +204,7 @@ const MenuApp = (props: any) => {
               >
                 <ShareIcon />
               </IconButton>
-            <IconButton
+           {administrator && (<IconButton
                 aria-label="sync"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
@@ -213,7 +213,7 @@ const MenuApp = (props: any) => {
                 color="inherit"
               >
                 <FreeBreakfastIcon />
-              </IconButton>
+              </IconButton>)}
         </Toolbar>
       </AppBar>
       <div className="ghost-appbar"></div>
