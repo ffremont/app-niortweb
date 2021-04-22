@@ -1,11 +1,16 @@
 .register-form{
     padding: 20px;
     margin-bottom: 100px;
+
+     .app-formcontrol.end{
+        margin-top:3px;
+    }
 }
 
 .app-formcontrol + .app-formcontrol{
     margin-top:20px;
 }
+
 
 .register-content{
     padding:10px;

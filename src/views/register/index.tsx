@@ -12,15 +12,18 @@ import * as My from '../../models/Event';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import { Backdrop, Button, Checkbox, CircularProgress, Fab, FormControlLabel, InputAdornment, TextField } from '@material-ui/core';
+import { Backdrop, Button, Checkbox, CircularProgress, Fab, FormControl, FormControlLabel, InputAdornment, TextField } from '@material-ui/core';
 import { NotifType } from '../../models/notif';
+import { InputLabel } from '@material-ui/core';
+import { NativeSelect } from '@material-ui/core';
 
-class Register extends React.Component<{ history: any, location: any, match: any }, { acceptRecord: boolean, event: any }> {
+class Register extends React.Component<{ history: any, location: any, match: any }, { faceToFace:boolean, acceptRecord: boolean, event: any }> {
 
   // The component's Local state.
   state = {
     event: null,
-    acceptRecord: false
+    acceptRecord: false,
+    faceToFace:false
   };
 
 
@@ -38,7 +41,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
     e.preventDefault();
 
     const contributor:any = {};
-    const whitelistAttr = ['email','iam','fullName','comment']
+    const whitelistAttr = ['email','iam','fullName','comment', 'faceToFace']
     const data:any = new FormData(e.target);
     for (const [name,value] of data) {
       if(whitelistAttr.indexOf(name) === -1) continue;
@@ -71,7 +74,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
   }
 
   render() {
-
+    const e: any = this.state.event;
     return (<div className="register">
       <MenuApp mode="register" history={this.props.history} />
 
@@ -97,7 +100,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
             label="Prénom et nom"
             placeholder="Pierre Azerty"
             required
-
+            inputProps={{ maxLength: 256 }} 
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -112,6 +115,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
             fullWidth
             id="email"
             label="Email"
+            inputProps={{ maxLength: 256 }} 
             name="email"
             type="email"
             placeholder="pierre.azerty@any.com"
@@ -124,11 +128,14 @@ class Register extends React.Component<{ history: any, location: any, match: any
               ),
             }}
           /></div>
+
+        
         <div className="app-formcontrol">
           <TextField
             fullWidth
             name="iam"
             label="Qui suis-je en quelques mots"
+            inputProps={{ maxLength: 128 }} 
             placeholder="Développeur 'fullstack'"
             InputProps={{
               startAdornment: (
@@ -145,6 +152,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
             name="comment"
             label="Commentaire"
             placeholder=""
+            inputProps={{ maxLength: 256 }} 
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -154,7 +162,22 @@ class Register extends React.Component<{ history: any, location: any, match: any
             }}
           /></div>
 
-        <div className="app-formcontrol">
+      {e && (e.mode === 'REMOTE_AND_PHYSICAL_CONF') && (<div className="app-formcontrol">
+          <FormControlLabel
+          id="faceToFace"
+            control={
+              <Checkbox
+                checked={this.state.faceToFace}
+                onChange={(e) => this.setState({ faceToFace: e.target.checked })}
+                name="faceToFace"
+                color="primary"
+              />
+            }
+            label="Je viendrai physiquement à NiortTech"
+          />
+        </div>)}
+
+        <div className="app-formcontrol end">
           <FormControlLabel
           id="acceptRecord"
             control={

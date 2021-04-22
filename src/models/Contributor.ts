@@ -11,4 +11,10 @@ export interface Contributor{
 
     
     comment:string;
+
+
+    /**
+     * Indique si le contributeur viendra en présentiel
+     */
+     faceToFace: boolean;
 }
