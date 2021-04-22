@@ -68,7 +68,6 @@ function EventCard(props: any) {
       event.contributors = event.contributors.filter(c => c.email !== email);
       EventStore.update(event)
       .then(() => {
-        console.log('ok');
         eventStore.load();
         pwaService.notify(
           `Désinscription effectuée`,
