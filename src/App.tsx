@@ -46,7 +46,7 @@ class App extends React.Component<{}, {  }>{
 
             <Route path="/login" component={Login} />
 
-            <Route path="/widget" component={Widget} />
+            <Route path="/agenda" component={Widget} />
             
             <Route path="/email-check" component={EmailCheck} /> 
             
