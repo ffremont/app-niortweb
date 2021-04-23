@@ -45,7 +45,7 @@ class Welcome extends React.Component<{ history: any, match: any }, {
         console.log('componentDidMount eventStore',{ e, et});
         return e;
       })
-      myEvents.sort(firstBy('typeOfEvent', { direction: "asc" }).thenBy('createdAt', { direction: "desc" }));
+      myEvents.sort(firstBy('typeOfEvent', { direction: "asc" }).thenBy('createdAt', { direction: "asc" }));
 
       this.setState({ events:myEvents });
     });
