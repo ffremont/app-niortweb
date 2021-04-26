@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './EventCard.scss';
 import Button from '@material-ui/core/Button';
 import historyService from '../../services/history.service';
@@ -28,7 +28,7 @@ function EventCard(props: any) {
   const [email, setEmail] = React.useState<any>(null);
   const [isRegistered, setIsRegistered] = React.useState<boolean>(false);
   const [readonly, setReadonly] = React.useState<any>(props.readonly);
-
+  const pressTimer = useRef<any>(null);
 
   React.useEffect(() => {
     setEvent(props.event);
@@ -79,8 +79,17 @@ function EventCard(props: any) {
     }
   }
 
+  const onmousedown = () => {
+    if(pressTimer.current) clearTimeout(pressTimer.current);
+    pressTimer.current = setTimeout(() => {
+      if(props.onLongPress) props.onLongPress();
+    },2000);
+  }, onmouseup = () => {
+    if(pressTimer.current) clearTimeout(pressTimer.current);
+  };
+
   return (
-    <Card className="event" key={'ec'+event.id} id={event.id} onClick={() => props.onClick ? props.onClick() : null } >
+    <Card  onMouseDown={onmousedown} onMouseUp={onmouseup} className="event" key={'ec'+event.id} id={event.id} onClick={() => props.onClick ? props.onClick() : null } >
           <CardActionArea>
             <CardHeader key={'ec'+event.id}
               avatar={

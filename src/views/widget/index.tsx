@@ -1,17 +1,8 @@
 import React from 'react';
 import './Widget.scss';
 import historyService from '../../services/history.service';
-import {  Backdrop, Button, CardActions, CardHeader, Chip, CircularProgress } from '@material-ui/core';
+import {  Backdrop, CircularProgress } from '@material-ui/core';
 import SnackAdd from '../../shared/snack-add';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import AppIcon from '../../assets/images/banner-logo.png';
 import * as My from '../../models/Event';
 import eventStore, {EventStore} from '../../stores/event';
 import eventService from '../../services/event.service';
@@ -39,7 +30,6 @@ class Widget extends React.Component<{ history: any, match: any }, {
       const myEvents = events.map((e: any) => {
         const et = eventService.typeOfEvent(e);
         e.typeOfEvent = ['OPEN', 'SCHEDULED', 'PAST'].findIndex((t: string) => t === et);
-        console.log('componentDidMount eventStore',{ e, et});
         return e;
       })
       myEvents.sort(firstBy('typeOfEvent', { direction: "asc" }).thenBy('createdAt', { direction: "desc" }));

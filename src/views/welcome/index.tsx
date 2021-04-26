@@ -2,7 +2,7 @@ import React from 'react';
 import './Welcome.scss';
 import MenuApp from '../../shared/menu-app';
 import historyService from '../../services/history.service';
-import { Avatar, Backdrop, Button, CardActions, CardHeader, Chip, CircularProgress } from '@material-ui/core';
+import { Backdrop, Button, CardActions, Chip, CircularProgress } from '@material-ui/core';
 import SnackAdd from '../../shared/snack-add';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -18,12 +18,14 @@ import eventStore, {EventStore} from '../../stores/event';
 import eventService from '../../services/event.service';
 import authService from '../../services/auth.service';
 import pwaService from '../../services/pwa.service';
+import notifStore from '../../stores/notif';
 import { firstBy } from 'thenby';
 import conf from '../../confs';
 import EventCard from '../../shared/event-card';
 import Review from '../../shared/review';
 import YoutubeLive from '../../shared/youtube-live';
 import { Subscription } from 'rxjs';
+import { NotifType } from '../../models/notif';
 
 class Welcome extends React.Component<{ history: any, match: any }, {
   expanded: boolean, events: null | My.Event[], openReview:boolean,event:null|My.Event, openYoutubeLive:boolean
@@ -42,7 +44,7 @@ class Welcome extends React.Component<{ history: any, match: any }, {
       const myEvents = events.map((e: any) => {
         const et = eventService.typeOfEvent(e);
         e.typeOfEvent = ['OPEN', 'SCHEDULED', 'PAST'].findIndex((t: string) => t === et);
-        console.log('componentDidMount eventStore',{ e, et});
+  
         return e;
       })
       myEvents.sort(firstBy('typeOfEvent', { direction: "asc" }).thenBy('createdAt', { direction: "asc" }));
@@ -116,6 +118,17 @@ class Welcome extends React.Component<{ history: any, match: any }, {
     eventStore.load();
   }
 
+  onClipBoardCopy(evt:My.Event){
+    const copyText:any = document.querySelector('#welcome_cp');
+    if(copyText){
+      copyText.value = `${evt.title} (${(new Date(evt.scheduled)).toLocaleString()}) \n\n${evt.description}`;
+      copyText.select();
+      document.execCommand("copy");
+      notifStore.set({type:NotifType.MEMO, duration:3000, message:`Evénement copié dans le presse-papier`});
+    }
+    
+  }
+
   render() {
     return (<div className="tickets tickets-content">
       <MenuApp mode="home" history={this.props.history} onRefresh={() => this.onRefresh()} />
@@ -179,6 +192,7 @@ class Welcome extends React.Component<{ history: any, match: any }, {
         </Card>
 
         {(this.state.events || []).map((evt: any) => (<EventCard 
+        onLongPress={() => this.onClipBoardCopy(evt)}
         key={evt.id} 
         readonly={false} 
         onReview={() => this.onReview(evt)}
@@ -186,6 +200,8 @@ class Welcome extends React.Component<{ history: any, match: any }, {
         event={evt} 
         history={this.props.history} />))}
       </div>
+
+      <textarea className="hide" id="welcome_cp"/>
 
     </div>);
   }
