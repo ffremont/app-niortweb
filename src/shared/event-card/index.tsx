@@ -79,17 +79,17 @@ function EventCard(props: any) {
     }
   }
 
-  const onmousedown = () => {
+  const ondown = () => {
     if(pressTimer.current) clearTimeout(pressTimer.current);
     pressTimer.current = setTimeout(() => {
       if(props.onLongPress) props.onLongPress();
     },2000);
-  }, onmouseup = () => {
+  }, onup = () => {
     if(pressTimer.current) clearTimeout(pressTimer.current);
   };
 
   return (
-    <Card  onMouseDown={onmousedown} onMouseUp={onmouseup} className="event" key={'ec'+event.id} id={event.id} onClick={() => props.onClick ? props.onClick() : null } >
+    <Card onTouchStart={ondown} onTouchEnd={onup} onMouseDown={ondown} onMouseUp={onup} className="event" key={'ec'+event.id} id={event.id} onClick={() => props.onClick ? props.onClick() : null } >
           <CardActionArea>
             <CardHeader key={'ec'+event.id}
               avatar={
