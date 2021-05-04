@@ -1,0 +1,33 @@
+.register-form{
+    padding: 20px;
+    margin-bottom: 100px;
+
+     .app-formcontrol.end{
+        margin-top:3px;
+    }
+}
+
+
+.app-formcontrol + .app-formcontrol{
+    margin-top:20px;
+}
+
+.app-formcontrol-btn{
+    text-align: center;
+}
+
+
+.register-content{
+    padding:10px;
+}
+
+.register-footer{
+    background: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 0;
+}
