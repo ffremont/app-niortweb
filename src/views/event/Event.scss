@@ -7,6 +7,10 @@
     }
 }
 
+.card-controls{
+    margin-top:20px;
+}
+
 
 .app-formcontrol + .app-formcontrol{
     margin-top:20px;
@@ -16,7 +20,19 @@
     text-align: center;
 }
 
+.app-formcontrol-thumb{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    img{
+        max-width: 40vw;
+    }
+}
+
+.controls{
+    margin: 20px 0;
+}
 .register-content{
     padding:10px;
 }
@@ -31,3 +47,17 @@
     justify-content: center;
     padding: 25px 0;
 }
+
+.chips {
+    display: 'flex';
+    flex-wrap:'wrap';
+  }
+.chip {
+    margin:2px;
+}
+
+.select-formControl {
+    margin: 10px;
+    min-width: 120px;
+    max-width: 300px;
+  }

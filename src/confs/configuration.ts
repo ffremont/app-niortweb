@@ -10,6 +10,7 @@ export interface Configuration{
     soutenir:string;
     email: string;
     slack: string;
+    tags:string[],
     support:string;
     baseURL:string;
     fcmPublicVapidKey:string;

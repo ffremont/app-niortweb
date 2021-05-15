@@ -18,6 +18,7 @@ import Welcome from './views/welcome';
 import Register from './views/register';
 import EmailCheck from './views/email-check';
 import Widget from './views/widget';
+import Event from './views/event';
 
 
 // @see https://material-ui.com/customization/palette/
@@ -50,6 +51,8 @@ class App extends React.Component<{}, {  }>{
             
             <Route path="/email-check" component={EmailCheck} /> 
             
+            <PrivateRoute exact path="/organisation/nouvel-evenement" component={Event} /> 
+            <PrivateRoute exact path="/organisation/evenement/:id" component={Event} />       
             <PrivateRoute exact path="/" component={Welcome} />        
             <PrivateRoute exact path="/evenements" component={Welcome} />        
             <PrivateRoute exact path="/evenements/:id" component={Welcome} /> 

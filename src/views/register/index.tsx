@@ -5,17 +5,13 @@ import EventCard from '../../shared/event-card';
 import {EventStore} from '../../stores/event';
 import eventStore from '../../stores/event';
 import pwaService from '../../services/pwa.service';
-import notifStore from '../../stores/notif';
 import './Register.scss';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import * as My from '../../models/Event';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import { Backdrop, Button, Checkbox, CircularProgress, Fab, FormControl, FormControlLabel, InputAdornment, TextField } from '@material-ui/core';
-import { NotifType } from '../../models/notif';
-import { InputLabel } from '@material-ui/core';
-import { NativeSelect } from '@material-ui/core';
+import { Backdrop, Button, Checkbox, CircularProgress, FormControlLabel, InputAdornment, TextField } from '@material-ui/core';
 
 class Register extends React.Component<{ history: any, location: any, match: any }, { faceToFace:boolean, acceptRecord: boolean, event: any }> {
 

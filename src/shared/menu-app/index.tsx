@@ -81,7 +81,7 @@ const MenuApp = (props: any) => {
   const [mode, setMode] = useState('full');
   const [auth] = useState(false);
   const [canGoBack, setCanGoBack] = useState(false);
-  const [administrator, setAdministrator] = useState(false);
+  const [organizer, setOrganizer] = useState(false);
   const [email, setEmail] = useState('');
   const [goBackPath, setGoBackPath] = useState('');
   const [open, setOpen] = useState(false);
@@ -114,7 +114,7 @@ const MenuApp = (props: any) => {
     const subMyProfil = myProfilStore.subscribe((user: User) => {
       if (user && user.email){
         setEmail(user.email.substr(0, user.email.indexOf('@')));
-        setAdministrator(!!user.isAdmin);
+        setOrganizer( !!user.roles && (user.roles.indexOf('ORGANIZER') > -1));
       }
     })
     return () => {
@@ -204,7 +204,7 @@ const MenuApp = (props: any) => {
               >
                 <ShareIcon />
               </IconButton>
-           {administrator && (<IconButton
+           {organizer && (<IconButton
                 aria-label="sync"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
