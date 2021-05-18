@@ -14,10 +14,13 @@ import { EventModeEnum } from '../../models/EventModeEnum';
 import SubjectIcon from '@material-ui/icons/Subject';
 import DuoIcon from '@material-ui/icons/Duo';
 import BusinessIcon from '@material-ui/icons/Business';
+import GroupIcon from '@material-ui/icons/Group';
+import YouTubeIcon from '@material-ui/icons/YouTube';
 
 import conf from '../../confs';
 import moment from 'moment';
 import pwaService from '../../services/pwa.service';
+import { EventFormatEnum } from '../../models/EventFormatEnum';
 
 
 class Event extends React.Component<{ history: any, location: any, match: any }, {  event: any }> {
@@ -26,11 +29,17 @@ class Event extends React.Component<{ history: any, location: any, match: any },
   state = {
     event: {
       id:null,
+      contributors:[],
+      reviews:[],
       duration: 60,
       mode: EventModeEnum.REMOTE_AND_PHYSICAL_CONF,
+      format: EventFormatEnum.SIMPLE,
       where: 'NiortTech, 12 Avenue Jacques Bujault, 79000 Niort',
       webconfLink: `https://meet.jit.si/${Math.random().toString(36)}`,
       tags: [],
+      allowMaxContributors:20,
+      youtubeLink:'',
+      resumeLink:'',
       title: '',
       speaker:{
         firstname:'',
@@ -60,6 +69,7 @@ class Event extends React.Component<{ history: any, location: any, match: any },
           this.setState({ event: evt });
 
       });
+      window.scrollTo(0,0);
 
     //televerser
     this.myWidget = ((window as any).cloudinary.createUploadWidget({
@@ -153,7 +163,7 @@ class Event extends React.Component<{ history: any, location: any, match: any },
                   value={e.title}
                   onChange={(ev) => this.setState({ event: { ...e, title: ev.target.value } })}
                   fullWidth
-                  placeholder="Titre principal de l'événement"
+                  label="Titre principal de l'événement"
                   required
                   inputProps={{ maxLength: 512 }}
                   InputProps={{
@@ -171,7 +181,7 @@ class Event extends React.Component<{ history: any, location: any, match: any },
                   label="Date de l'événement"
                   fullWidth
                   required
-                  value={e.scheduled ? moment(e.scheduled).format('yyyy-MM-DDTkk:mm') : null}
+                  value={e.scheduled ? moment(e.scheduled).format('yyyy-MM-DDTkk:mm') : moment().add(7, 'days').hours(12).minutes(30).format('yyyy-MM-DDTkk:mm')}
                   onChange={(ev) => this.setState({ event: { ...e, scheduled: (new Date(ev.target.value)).getTime() } })}
                   type="datetime-local"
                   InputProps={{
@@ -226,6 +236,45 @@ class Event extends React.Component<{ history: any, location: any, match: any },
                     <option value={'PHYSICAL_CONF'}>Présentiel uniquement</option>
                   </Select>
                 </FormControl>
+              </div>
+              <div className="app-formcontrol">
+                <FormControl fullWidth>
+                  <InputLabel htmlFor="format-native-simple">Format</InputLabel>
+                  <Select
+                    native
+                    required
+                    fullWidth
+                    value={e.format}
+                    onChange={(ev) => this.setState({ event: { ...e, format: ev.target.value } })}
+                    inputProps={{
+                      name: 'format',
+                      id: 'format-native-simple',
+                    }}
+                  >
+                    <option value={'SIMPLE'}>Le midi (12h30 / 13h30)</option>
+                    <option value={'END_OF_DAY'}>Le soir (18h / 19h30)</option>
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="app-formcontrol">
+                <TextField
+                  id="allowMaxContributors"
+                  name="allowMaxContributors"
+                  type="number"
+                  fullWidth
+                  label="Quantité max de participants (-1 = +∞)"
+                  value={e.allowMaxContributors}
+                  onChange={(ev) => this.setState({ event: { ...e, allowMaxContributors: parseInt(ev.target.value) } })}
+                  required
+                  inputProps={{ max: 500 }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <GroupIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
               </div>
             </div>
           </CardContent>
@@ -298,7 +347,7 @@ class Event extends React.Component<{ history: any, location: any, match: any },
                   placeholder='https://niortweb.fr/evenements/mon-evenement'
                   label="Lien du résumé"
                   value={e.resumeLink}
-                  onChange={(e) => this.setState({ event: { ...e, resumeLink: parseInt(e.target.value) } })}
+                  onChange={(ev) => this.setState({ event: { ...e, resumeLink:ev.target.value } })}
                   inputProps={{ maxLength: 1024 }}
                   InputProps={{
                     startAdornment: (
@@ -336,6 +385,26 @@ class Event extends React.Component<{ history: any, location: any, match: any },
                     startAdornment: (
                       <InputAdornment position="start">
                         <DuoIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                </div>
+                <div className="app-formcontrol">
+                <TextField
+                  id="youtubeLink"
+                  name="youtubeLink"
+                  type="url"
+                  fullWidth
+                  placeholder='https://www.youtube.com/watch?v=123456789'
+                  label="Vidéo youtube"
+                  value={e.youtubeLink}
+                  onChange={(ev) => {this.setState({ event: { ...e, youtubeLink: ev.target.value } })}}
+                  inputProps={{ maxLength: 1024 }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <YouTubeIcon />
                       </InputAdornment>
                     ),
                   }}

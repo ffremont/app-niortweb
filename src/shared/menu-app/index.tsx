@@ -12,7 +12,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import FreeBreakfastIcon from '@material-ui/icons/FreeBreakfast';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MyIconTypoIcon from '../../assets/images/logo512.png';
 import Button from '@material-ui/core/Button';
@@ -21,7 +20,6 @@ import './MenuApp.scss';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
 import { grey } from '@material-ui/core/colors';
-import SyncIcon from '@material-ui/icons/Sync';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import LockIcon from '@material-ui/icons/Lock';
 import myProfilStore from '../../stores/my-profil';
@@ -204,16 +202,7 @@ const MenuApp = (props: any) => {
               >
                 <ShareIcon />
               </IconButton>
-           {organizer && (<IconButton
-                aria-label="sync"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                target="_blank"
-                href={conf.API.events()}
-                color="inherit"
-              >
-                <FreeBreakfastIcon />
-              </IconButton>)}
+           
         </Toolbar>
       </AppBar>
       <div className="ghost-appbar"></div>

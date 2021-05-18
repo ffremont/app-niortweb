@@ -27,6 +27,7 @@ function EventCard(props: any) {
   historyService.on(window.location.pathname);
 
   const [event, setEvent] = React.useState<any>(props.event);
+  const [compact, setCompact] = React.useState<boolean>(props.compact);
   const [email, setEmail] = React.useState<any>(null);
   const [isRegistered, setIsRegistered] = React.useState<boolean>(false);
   const [organizer, setOrganizer] = React.useState<boolean>(false);
@@ -39,6 +40,10 @@ function EventCard(props: any) {
     setIsRegistered((props.event.contributors || []).findIndex((c: Contributor) => c.email === email) > -1);
   }, [props.event]);
 
+
+  React.useEffect(() => {
+    setCompact(props.compact);
+  }, [props.compact]);
 
   React.useEffect(() => {
     setReadonly(props.readonly);
@@ -102,10 +107,36 @@ function EventCard(props: any) {
   };
 
   const inviteEmail = () => {
-    const email = window.prompt(`Quel email souhiatez-vous inscrire ?`);
+    const email = window.prompt(`Quel email souhaitez-vous inscrire ?`);
     if(email){
-      // TODO
+      EventStore.registerEmail(event.id, {
+        email, faceToFace:true
+      })
+        .then(() => {
+          eventStore.load();
+          pwaService.notify(
+            `Email inscrit`,
+            `😎 ${email} est ajouté aux participants`
+          )
+        }).catch(() => {
+          props.history.push('/erreur');
+        })
       handleClose();
+    }
+  }
+
+  const deleteEvent = () =>{
+    if(window.confirm(`Confirmez-vous la suppression de l'événement ?`)){
+      EventStore.remove(event)
+        .then(() => {
+          eventStore.load();
+          pwaService.notify(
+            `Suppression effectuée`,
+            `🧽 Evénement "${event.title}" supprimé`
+          )
+        }).catch(() => {
+          props.history.push('/erreur');
+        })
     }
   }
 
@@ -121,7 +152,7 @@ function EventCard(props: any) {
             </Avatar>))
           }
           action={
-            organizer ? (<IconButton onClick={handleClick}>
+            organizer && !compact ? (<IconButton onClick={handleClick}>
               <MoreVertIcon />
             </IconButton>) : (<IconButton>
               {(event.mode !== 'PHYSICAL_CONF') && (<DuoIcon />)}
@@ -136,7 +167,7 @@ function EventCard(props: any) {
           image={event.image}
           title="logo NW"
         />
-        <CardContent className="app-card-content">
+        {!compact &&(<CardContent className="app-card-content">
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}
@@ -144,9 +175,11 @@ function EventCard(props: any) {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
+            <MenuItem onClick={() => props.history.push('/organisation/plus-sur-evenement/'+event.id)}>Participants &amp; Feedbacks</MenuItem>
             <MenuItem onClick={inviteEmail}>Inscrire via un email</MenuItem>
+            
             <MenuItem onClick={() => props.history.push('/organisation/evenement/'+event.id)}>Editer l'événement</MenuItem>
-            {(event.state == 'DRAFT') && (<MenuItem onClick={handleClose}>Supprimer l'événement</MenuItem>)}
+            {(event.state == 'DRAFT') && (<MenuItem onClick={deleteEvent}>Supprimer l'événement</MenuItem>)}
           </Menu>
 
           <Typography className="tags" variant="body2" color="textSecondary" component="p">
@@ -166,7 +199,7 @@ function EventCard(props: any) {
           </Typography>
 
 
-        </CardContent>
+        </CardContent>)}
 
         {!isRegistered && !readonly && ((eventService.typeOfEvent(event) === 'OPEN') && ((event.allowMaxContributors - event.contributors.length) > 0)) && (<CardActions>
           <Button onClick={() => props.history.push(`/evenements/${event.id}/inscription`)}>S'inscrire ({(event.allowMaxContributors - event.contributors.length)} place.s restante.s)</Button>

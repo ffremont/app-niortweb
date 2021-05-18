@@ -14,7 +14,8 @@ const other: Configuration = {
     fcmPublicVapidKey: 'BDorbRGlAAfrBhhye1o3dWSUCiIYOMpNoBtibMkd1gRFKRE7O5nW7K1AWIO3okeyZXO7vQfkeUslRITFY3rxZvs',
     API: {
         events: (id:any = '') => `${DEV_API_BASEURL}/events${id ? '/'+id: ''}`,
-        myProfil: () => `${DEV_API_BASEURL}/my-profil`
+        myProfil: () => `${DEV_API_BASEURL}/my-profil`,
+        registerEmail: (id:any = '') => `${DEV_API_BASEURL}/events${id ? '/'+id: ''}/register-email`
     },
     slack:''
 } ;
@@ -29,7 +30,8 @@ const prod: Configuration = {
     fcmPublicVapidKey: 'BDorbRGlAAfrBhhye1o3dWSUCiIYOMpNoBtibMkd1gRFKRE7O5nW7K1AWIO3okeyZXO7vQfkeUslRITFY3rxZvs',
     API: {
         events: (id:any = '') => `${API_BASEURL}/events${id ? '/'+id: ''}`,
-        myProfil: () => `${API_BASEURL}/my-profil`
+        myProfil: () => `${API_BASEURL}/my-profil`,
+        registerEmail: (id:any = '') => `${API_BASEURL}/events${id ? '/'+id: ''}/register-email`
     },
     slack:''
 } ;

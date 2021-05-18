@@ -2,7 +2,8 @@
 
 interface APIS{
     events?:any;
-    myProfil?:any
+    myProfil?:any,
+    registerEmail?:any
 }
 
 export interface Configuration{

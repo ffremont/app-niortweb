@@ -4,6 +4,7 @@ import httpClientService from '../services/http-client.service';
 import conf from '../confs';
 import { AxiosResponse } from 'axios';
 import * as My from '../models/Event';
+import { Contributor } from '../models/Contributor';
 
 export class EventStore implements Store<My.Event[]>{
     private sub = new BehaviorSubject<My.Event[]>([]);
@@ -29,13 +30,12 @@ export class EventStore implements Store<My.Event[]>{
             await httpClientService.axios.post(conf.API.events(evt.id), evt);
     }
 
-    static async remove(ticket: My.Event) {
-        if (process.env.REACT_APP_STAGE === 'prod') {
-            await httpClientService.axios.delete(conf.API.events(ticket.id));
-        } else {
-            console.log('delete ticket', ticket);
-            await httpClientService.axios.get(conf.API.events());
-        }
+    static async remove(evt: My.Event) {
+        await httpClientService.axios.delete(conf.API.events(evt.id));
+    }
+
+    static async registerEmail(id: string, contributor: Contributor) {
+        await httpClientService.axios.post(conf.API.registerEmail(id), contributor);
     }
 
     /**
