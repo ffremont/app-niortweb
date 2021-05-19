@@ -17,7 +17,7 @@ const other: Configuration = {
         myProfil: () => `${DEV_API_BASEURL}/my-profil`,
         registerEmail: (id:any = '') => `${DEV_API_BASEURL}/events${id ? '/'+id: ''}/register-email`
     },
-    slack:''
+    slack:'https://join.slack.com/t/niortweb/shared_invite/zt-j5dsxq3b-iQK~NE09Sxp4POn2CgDWqA'
 } ;
 
 const API_BASEURL = '/api';
@@ -33,7 +33,7 @@ const prod: Configuration = {
         myProfil: () => `${API_BASEURL}/my-profil`,
         registerEmail: (id:any = '') => `${API_BASEURL}/events${id ? '/'+id: ''}/register-email`
     },
-    slack:''
+    slack:'https://join.slack.com/t/niortweb/shared_invite/zt-j5dsxq3b-iQK~NE09Sxp4POn2CgDWqA'
 } ;
 
 const config = process.env.REACT_APP_STAGE === 'prod'  ? prod : other;

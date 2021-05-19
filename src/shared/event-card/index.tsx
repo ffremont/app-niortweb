@@ -161,7 +161,7 @@ function EventCard(props: any) {
               {(event.mode !== 'REMOTE_ONLY_CONF') && (<PeopleIcon />)}
             </IconButton>)
           }
-          title={`${isRegistered ? '[INSCRIT.E] ' : ''}${event.title}`}
+          title={`${isRegistered ? '[INSCRIT·E] ' : ''}${event.title}`}
           subheader={(new Date(event.scheduled).toLocaleString())}
         />
         <CardMedia

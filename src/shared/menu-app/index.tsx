@@ -153,10 +153,10 @@ const MenuApp = (props: any) => {
             <ListItemText primary="Connecté" secondary={email} />
           </ListItem>)}
 
-          <ListItem button key="soumettre" component="a" href={`mailto:${conf.email}?subject=[app.NiortWeb.fr] Soumettre une idée d'événement`}>
+          {!organizer && (<ListItem button key="soumettre" component="a" href={`mailto:${conf.email}?subject=[app.NiortWeb.fr] Soumettre une idée d'événement`}>
             <ListItemIcon><EmojiObjectsIcon /></ListItemIcon>
             <ListItemText primary="Soumettre un événement" secondary="" />
-          </ListItem>
+          </ListItem>)}
           <ListItem button key="contact"  component="a" href={`mailto:${conf.email}?subject=[app.NiortWeb.fr] Prise de contact`}>
             <ListItemIcon><SendIcon /></ListItemIcon>
             <ListItemText primary="Envoyer un message" secondary="" />
