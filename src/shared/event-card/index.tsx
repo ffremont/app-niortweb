@@ -32,6 +32,8 @@ function EventCard(props: any) {
   const [isRegistered, setIsRegistered] = React.useState<boolean>(false);
   const [organizer, setOrganizer] = React.useState<boolean>(false);
   const [readonly, setReadonly] = React.useState<any>(props.readonly);
+  const [moreInformation, setMoreInformation] = React.useState<boolean>(props.moreInformation);
+  
   const pressTimer = useRef<any>(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -176,7 +178,8 @@ function EventCard(props: any) {
             onClose={handleClose}
           >
             <MenuItem onClick={() => props.history.push('/organisation/plus-sur-evenement/'+event.id)}>Participants &amp; Feedbacks</MenuItem>
-            <MenuItem onClick={inviteEmail}>Inscrire via un email</MenuItem>
+            {(  ['OPEN'].indexOf(eventService.typeOfEvent(event)) > -1) && 
+              ((event.allowMaxContributors === -1) || ((event.allowMaxContributors - event.contributors.length) > 0)) && (<MenuItem onClick={inviteEmail}>Inscrire via un email</MenuItem>)}
             
             <MenuItem onClick={() => props.history.push('/organisation/evenement/'+event.id)}>Editer l'événement</MenuItem>
             {(event.state == 'DRAFT') && (<MenuItem onClick={deleteEvent}>Supprimer l'événement</MenuItem>)}
@@ -204,6 +207,9 @@ function EventCard(props: any) {
         {!isRegistered && !readonly && ((eventService.typeOfEvent(event) === 'OPEN') && ((event.allowMaxContributors - event.contributors.length) > 0)) && (<CardActions>
           <Button onClick={() => props.history.push(`/evenements/${event.id}/inscription`)}>S'inscrire ({(event.allowMaxContributors - event.contributors.length)} place.s restante.s)</Button>
         </CardActions>)}
+        {moreInformation && readonly && (<CardActions>
+          <Button color="secondary" onClick={() => props.history.push(`/evenements/${event.id}`)}>Infos et inscription</Button>
+        </CardActions>)}
         {!isRegistered && !readonly && ((eventService.typeOfEvent(event) === 'OPEN') && (event.allowMaxContributors === -1)) && (<CardActions>
           <Button onClick={() => props.history.push(`/evenements/${event.id}/inscription`)}>S'inscrire</Button>
         </CardActions>)}
@@ -213,12 +219,14 @@ function EventCard(props: any) {
           {event.youtubeLink && (<Button onClick={() => props.onYoutubeLive ? props.onYoutubeLive(event) : null}>Live Youtube</Button>)}
         </CardActions>)}
         {isRegistered && !readonly && (eventService.typeOfEvent(event) === 'OPEN') && (<CardActions className="registered-card-actions">
+          {event.webconfLink && (<Button target="_blank" href={event.webconfLink}>Accès webconf</Button>)}
           <Button onClick={() => unregister(event)}>Se désinscrire</Button>
           <Button target="_blank" href={google({
             title: event.title,
-            description: event.description,
+            description: `${event.description}${event.webconfLink ? '\n\nLien webconf : '+event.webconfLink: ''}`,
+            url: event.webconfLink,
             start: event.scheduled,
-            duration: [1, "hour"],
+            duration: [event.duration / 60, "hour"],
           })}>+ Agenda</Button>
         </CardActions>)}
 
