@@ -9,7 +9,7 @@ const other: Configuration = {
     support: '',
     baseURL: 'http://localhost:4000',
     soutenir: 'https://www.paypal.me/ffremont',
-    tags:['IA', 'Métier', 'Bot', 'Web', 'Framework','Bonnes pratiques', 'Qualité', 'Sécurité'],
+    tags:['IA', 'Métier', 'Bot', 'Web', 'Framework','Bonnes pratiques', 'Qualité', 'Sécurité', 'Coding'],
     email:"ff.fremont.florent@gmail.com",
     fcmPublicVapidKey: 'BDorbRGlAAfrBhhye1o3dWSUCiIYOMpNoBtibMkd1gRFKRE7O5nW7K1AWIO3okeyZXO7vQfkeUslRITFY3rxZvs',
     API: {
@@ -25,7 +25,7 @@ const prod: Configuration = {
     support: '',
     baseURL: 'https://app.niortweb.fr',
     email:"ff.fremont.florent@gmail.com",
-    tags:['IA'],
+    tags:['IA', 'Métier', 'Bot', 'Web', 'Framework','Bonnes pratiques', 'Qualité', 'Sécurité', 'Coding'],
     soutenir: 'https://www.paypal.me/ffremont',
     fcmPublicVapidKey: 'BDorbRGlAAfrBhhye1o3dWSUCiIYOMpNoBtibMkd1gRFKRE7O5nW7K1AWIO3okeyZXO7vQfkeUslRITFY3rxZvs',
     API: {
