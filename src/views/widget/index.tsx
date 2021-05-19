@@ -100,10 +100,10 @@ class Widget extends React.Component<{ history: any, match: any }, {
         {(this.state.events || []).map((evt: any) => (<EventCard 
         key={evt.id} 
         readonly={true} 
+        moreInformation={true}
         onReview={() => this.onReview(evt)}
         onYoutubeLive={() => this.setState({openYoutubeLive:true, event: evt})}
         event={evt} 
-        onClick={() => this.props.history.push(`/evenements/${evt.id}`)}
         history={this.props.history} />))}
       </div>
 

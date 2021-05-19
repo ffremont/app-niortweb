@@ -3,9 +3,11 @@ import { StateEnum } from '../models/StateEnum';
 
 export class EventService{
   typeOfEvent(event:My.Event){
-    if(event.scheduled >= (new Date()).getTime() && event.state === StateEnum.OK){
+    const pointTs = event.scheduled + event.duration*60000;
+
+    if(pointTs >= (new Date()).getTime() && event.state === StateEnum.OK){
       return 'OPEN';
-    }else if(event.scheduled < (new Date()).getTime() && event.state === StateEnum.OK){
+    }else if(pointTs < (new Date()).getTime() && event.state === StateEnum.OK){
       return 'PAST'
     }else{
       return 'SCHEDULED';

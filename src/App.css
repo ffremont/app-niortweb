@@ -102,6 +102,10 @@
   padding-top:0px;
 }
 
+.event .MuiCardActions-root .MuiButton-root{
+  text-align: center;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

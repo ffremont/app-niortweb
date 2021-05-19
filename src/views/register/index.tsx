@@ -12,16 +12,23 @@ import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { Backdrop, Button, Checkbox, CircularProgress, FormControlLabel, InputAdornment, TextField } from '@material-ui/core';
+import { Contributor } from '../../models/Contributor';
 
-class Register extends React.Component<{ history: any, location: any, match: any }, { faceToFace:boolean, acceptRecord: boolean, event: any }> {
+class Register extends React.Component<{ history: any, location: any, match: any }, { loading: boolean,contributor: Contributor, acceptRecord: boolean, event: any }> {
 
   // The component's Local state.
   state = {
     event: null,
+    loading:false,
     acceptRecord: false,
-    faceToFace:false
+    contributor: {
+      email:'',
+      iam:'',
+      fullName: '',
+      faceToFace: false,
+      comment: ''
+    }
   };
-
 
   componentDidMount() {
     historyService.on(window.location.pathname);
@@ -36,17 +43,10 @@ class Register extends React.Component<{ history: any, location: any, match: any
   onSubmit(e:any){
     e.preventDefault();
 
-    const contributor:any = {};
-    const whitelistAttr = ['email','iam','fullName','comment', 'faceToFace']
-    const data:any = new FormData(e.target);
-    for (const [name,value] of data) {
-      if(whitelistAttr.indexOf(name) === -1) continue;
-      contributor[name] = value;
-    }
-
     if((window as any).confirm(`Confirmez-vous votre inscription ?`)){
+      this.setState({loading:true});
       const event = {...(this.state.event as any)};
-      event.contributors.push(contributor);
+      event.contributors.push(this.state.contributor);
       EventStore.update(event)
       .then(() => {
         this.props.history.push('/');
@@ -56,8 +56,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
         )
       }).catch(() => {
         this.props.history.push('/erreur');
-      })
-      
+      }).finally(() => this.setState({loading:false}));
     }
   }
 
@@ -75,7 +74,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
       <MenuApp mode="register" history={this.props.history} />
 
 
-      {this.state.event === null && (<Backdrop className="backdrop" open={true}>
+      {(this.state.event === null  || this.state.loading)&& (<Backdrop className="backdrop" open={true}>
         <CircularProgress color="inherit" />
       </Backdrop>)}
 
@@ -95,6 +94,8 @@ class Register extends React.Component<{ history: any, location: any, match: any
             fullWidth
             label="Prénom et nom"
             placeholder="Pierre Azerty"
+            value={this.state.contributor.fullName}
+            onChange={(e) => this.setState({contributor: {...this.state.contributor, fullName: e.target.value}})}
             required
             inputProps={{ maxLength: 256 }} 
             InputProps={{
@@ -112,6 +113,8 @@ class Register extends React.Component<{ history: any, location: any, match: any
             id="email"
             label="Email"
             inputProps={{ maxLength: 256 }} 
+            value={this.state.contributor.email}
+            onChange={(e) => this.setState({contributor: {...this.state.contributor, email: e.target.value}})}
             name="email"
             type="email"
             placeholder="pierre.azerty@any.com"
@@ -133,6 +136,8 @@ class Register extends React.Component<{ history: any, location: any, match: any
             label="Qui suis-je en quelques mots"
             inputProps={{ maxLength: 128 }} 
             placeholder="Développeur 'fullstack'"
+            value={this.state.contributor.iam}
+            onChange={(e) => this.setState({contributor: {...this.state.contributor, iam: e.target.value}})}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -149,6 +154,8 @@ class Register extends React.Component<{ history: any, location: any, match: any
             label="Commentaire"
             placeholder=""
             inputProps={{ maxLength: 256 }} 
+            value={this.state.contributor.comment}
+            onChange={(e) => this.setState({contributor: {...this.state.contributor, comment: e.target.value}})}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -163,8 +170,9 @@ class Register extends React.Component<{ history: any, location: any, match: any
           id="faceToFace"
             control={
               <Checkbox
-                checked={this.state.faceToFace}
-                onChange={(e) => this.setState({ faceToFace: e.target.checked })}
+                checked={this.state.contributor.faceToFace}
+                onChange={(e) => this.setState({contributor: {...this.state.contributor, faceToFace: e.target.checked}})}
+
                 name="faceToFace"
                 color="primary"
               />
@@ -185,7 +193,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
                 color="primary"
               />
             }
-            label="J'accepte de participer à un événemenet enregistré"
+            label="J'accepte de participer à un événement enregistré*"
           />
         </div>
 
@@ -193,7 +201,7 @@ class Register extends React.Component<{ history: any, location: any, match: any
           <Button type="submit"
             className="register-action"
             size="large"
-            variant="outlined"
+            variant="contained"
             color="secondary">S'inscrire</Button>
         </div>
 

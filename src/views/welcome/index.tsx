@@ -18,6 +18,7 @@ import eventStore, { EventStore } from '../../stores/event';
 import eventService from '../../services/event.service';
 import authService from '../../services/auth.service';
 import pwaService from '../../services/pwa.service';
+import myProfilStore from '../../stores/my-profil';
 import notifStore from '../../stores/notif';
 import { firstBy } from 'thenby';
 import conf from '../../confs';
@@ -27,16 +28,18 @@ import YoutubeLive from '../../shared/youtube-live';
 import AddIcon from '@material-ui/icons/Add';
 import { Subscription } from 'rxjs';
 import { NotifType } from '../../models/notif';
+import { User } from '../../models/User';
 
 class Welcome extends React.Component<{ history: any, match: any }, {
-  expanded: boolean, events: null | My.Event[], openReview: boolean, event: null | My.Event, openYoutubeLive: boolean
+  expanded: boolean, events: null | My.Event[], openReview: boolean, event: null | My.Event, openYoutubeLive: boolean, organizer:boolean
 }>{
 
   state = {
-    expanded: false, events: null, openReview: false, event: null, openYoutubeLive: false
+    expanded: false, events: null, openReview: false, event: null, openYoutubeLive: false,organizer : false
   };
 
   private _subEvents: Subscription | null = null;
+  private _subMyProfil: Subscription | null = null;
 
   componentDidMount() {
     historyService.on(window.location.pathname);
@@ -51,6 +54,11 @@ class Welcome extends React.Component<{ history: any, match: any }, {
       myEvents.sort(firstBy('typeOfEvent', { direction: "asc" }).thenBy('createdAt', { direction: "desc" }));
 
       this.setState({ events: myEvents });
+    });
+
+    this._subMyProfil = myProfilStore.subscribe((user: User) => {
+      if (user && user.email)
+        this.setState({organizer: (!!user.roles && (user.roles.indexOf('ORGANIZER') > -1))});
     });
 
     eventStore.load()
@@ -70,6 +78,7 @@ class Welcome extends React.Component<{ history: any, match: any }, {
 
   componentWillUnmount() {
     if (this._subEvents) this._subEvents.unsubscribe();
+    if (this._subMyProfil) this._subMyProfil.unsubscribe();
   }
 
   componentDidUpdate() {
@@ -192,9 +201,9 @@ class Welcome extends React.Component<{ history: any, match: any }, {
           </CardActionArea>
         </Card>
 
-        <Fab color="secondary" className="app-fab-main-btn" onClick={() => this.props.history.push('/organisation/nouvel-evenement')} aria-label="add">
+        {this.state.organizer && (<Fab color="secondary" className="app-fab-main-btn" onClick={() => this.props.history.push('/organisation/nouvel-evenement')} aria-label="add">
           <AddIcon />
-        </Fab>
+        </Fab>)}
 
         {(this.state.events || []).map((evt: any) => (<EventCard
           onLongPress={() => this.onClipBoardCopy(evt)}
