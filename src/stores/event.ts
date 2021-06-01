@@ -5,6 +5,7 @@ import conf from '../confs';
 import { AxiosResponse } from 'axios';
 import * as My from '../models/Event';
 import { Contributor } from '../models/Contributor';
+import { EmailCommunication } from '../models/EmailCommunication';
 
 export class EventStore implements Store<My.Event[]>{
     private sub = new BehaviorSubject<My.Event[]>([]);
@@ -19,6 +20,12 @@ export class EventStore implements Store<My.Event[]>{
 
     static async add(evt: My.Event) {
         const response: AxiosResponse<My.Event> = await httpClientService.axios.post(conf.API.events(), evt);
+
+        return response.data;
+    }
+
+    static async sendComm(comm: EmailCommunication) {
+        const response: AxiosResponse<My.Event> = await httpClientService.axios.post(conf.API.emails(comm.eventId), comm);
 
         return response.data;
     }

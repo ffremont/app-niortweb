@@ -34,7 +34,7 @@ class Event extends React.Component<{ history: any, location: any, match: any },
       duration: 60,
       mode: EventModeEnum.REMOTE_AND_PHYSICAL_CONF,
       format: EventFormatEnum.SIMPLE,
-      where: 'NiortTech, 12 Avenue Jacques Bujault, 79000 Niort',
+      where: 'Jitsi & NiortTech, 12 Avenue Jacques Bujault, 79000 Niort',
       webconfLink: `https://meet.jit.si/${Math.random().toString(36)}`,
       tags: [],
       allowMaxContributors:20,
@@ -392,6 +392,27 @@ class Event extends React.Component<{ history: any, location: any, match: any },
                 </div>
                 <div className="app-formcontrol">
                 <TextField
+                  id="where"
+                  name="where"
+                  required
+                  type="text"
+                  fullWidth
+                  label="Où"
+                  value={e.where || 'Via Jitsi'}
+                  onChange={(e) => this.setState({ event: { ...e, where: (e.target.value) } })}
+                  inputProps={{ maxLength: 1024 }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BusinessIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </div>
+
+                <div className="app-formcontrol">
+                <TextField
                   id="youtubeLink"
                   name="youtubeLink"
                   type="url"
@@ -428,9 +449,9 @@ class Event extends React.Component<{ history: any, location: any, match: any },
                   required
                   type="text"
                   fullWidth
-                  label="Adresse du lien"
-                  value={e.where}
-                  onChange={(e) => this.setState({ event: { ...e, where: parseInt(e.target.value) } })}
+                  label="Où"
+                  value={e.where||'A NiortTech et via Jitsi'}
+                  onChange={(e) => this.setState({ event: { ...e, where: (e.target.value) } })}
                   inputProps={{ maxLength: 1024 }}
                   InputProps={{
                     startAdornment: (

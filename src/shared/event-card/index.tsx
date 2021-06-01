@@ -31,6 +31,7 @@ function EventCard(props: any) {
   const [email, setEmail] = React.useState<any>(null);
   const [isRegistered, setIsRegistered] = React.useState<boolean>(false);
   const [organizer, setOrganizer] = React.useState<boolean>(false);
+  const [administrator, setAdministrator] = React.useState<boolean>(false);
   const [readonly, setReadonly] = React.useState<any>(props.readonly);
   const [moreInformation, setMoreInformation] = React.useState<boolean>(props.moreInformation);
   
@@ -57,6 +58,7 @@ function EventCard(props: any) {
         setEmail(user.email);
       setIsRegistered(event ? (event.contributors||[]).findIndex((c: Contributor) => c.email === email) > -1 : false);
       setOrganizer(!!user.roles && (user.roles.indexOf('ORGANIZER') > -1));
+      setAdministrator(!!user.roles && (user.roles.indexOf('ADMIN') > -1));
     });
     return () => {
       subMyProfil.unsubscribe();
@@ -177,6 +179,8 @@ function EventCard(props: any) {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
+            {(  administrator && ['OPEN'].indexOf(eventService.typeOfEvent(event)) > -1) && 
+              ((event.allowMaxContributors === -1) || ((event.allowMaxContributors - event.contributors.length) > 0)) && (<MenuItem onClick={() => props.onSendComm ? props.onSendComm(): null}>Envoyer Comm'</MenuItem>)}
             <MenuItem onClick={() => props.history.push('/organisation/plus-sur-evenement/'+event.id)}>Participants &amp; Feedbacks</MenuItem>
             {(  ['OPEN'].indexOf(eventService.typeOfEvent(event)) > -1) && 
               ((event.allowMaxContributors === -1) || ((event.allowMaxContributors - event.contributors.length) > 0)) && (<MenuItem onClick={inviteEmail}>Inscrire via un email</MenuItem>)}

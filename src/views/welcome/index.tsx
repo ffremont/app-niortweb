@@ -29,13 +29,14 @@ import AddIcon from '@material-ui/icons/Add';
 import { Subscription } from 'rxjs';
 import { NotifType } from '../../models/notif';
 import { User } from '../../models/User';
+import Communication from '../../shared/communication';
 
 class Welcome extends React.Component<{ history: any, match: any }, {
-  expanded: boolean, events: null | My.Event[], openReview: boolean, event: null | My.Event, openYoutubeLive: boolean, organizer:boolean
+  expanded: boolean, events: null | My.Event[], openReview: boolean, openComm: boolean, event: null | My.Event, openYoutubeLive: boolean, organizer:boolean
 }>{
 
   state = {
-    expanded: false, events: null, openReview: false, event: null, openYoutubeLive: false,organizer : false
+    expanded: false, events: null, openComm:false, openReview: false, event: null, openYoutubeLive: false,organizer : false
   };
 
   private _subEvents: Subscription | null = null;
@@ -51,7 +52,7 @@ class Welcome extends React.Component<{ history: any, match: any }, {
 
         return e;
       })
-      myEvents.sort(firstBy('typeOfEvent', { direction: "asc" }).thenBy('createdAt', { direction: "desc" }));
+      myEvents.sort(firstBy('typeOfEvent', { direction: "asc" }).thenBy('createdAt', { direction: "asc" }));
 
       this.setState({ events: myEvents });
     });
@@ -156,6 +157,14 @@ class Welcome extends React.Component<{ history: any, match: any }, {
 
         }}
         onValidate={(e: any) => this.onValidateReview(e)} />
+
+      <Communication
+        event={this.state.event}
+        open={this.state.openComm}
+        onClose={() => {
+          this.setState({ openComm: false });
+        }}/>
+
       <SnackAdd />
 
       <YoutubeLive
@@ -207,6 +216,7 @@ class Welcome extends React.Component<{ history: any, match: any }, {
 
         {(this.state.events || []).map((evt: any) => (<EventCard
           onLongPress={() => this.onClipBoardCopy(evt)}
+          onSendComm={() => this.setState({ event:evt, openComm:true})}
           key={evt.id}
           readonly={false}
           onReview={() => this.onReview(evt)}

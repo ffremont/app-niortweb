@@ -15,7 +15,7 @@ class HttpClientService{
     constructor(){
         this.config = {
             responseType: 'json',
-            timeout: 15000,
+            timeout: 40000,
             
             transformResponse: [(data:any, headers:any)=>{
                 this.subResponse.next({data, headers});
