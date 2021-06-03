@@ -103,7 +103,8 @@ const Communication = (props: any) => {
         pwaService.notify(
           `Assistant comm'`,
           `🎉 🚀 Communication envoyée !`
-        )
+        );
+        handleClose();
       });
     }else{
       EventStore.sendComm({
