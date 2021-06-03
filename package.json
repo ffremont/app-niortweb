@@ -1,6 +1,6 @@
 {
   "name": "app-niortweb",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.1",
