@@ -32,7 +32,7 @@ class Widget extends React.Component<{ history: any, match: any }, {
         e.typeOfEvent = ['OPEN', 'SCHEDULED', 'PAST'].findIndex((t: string) => t === et);
         return e;
       })
-      myEvents.sort(firstBy('typeOfEvent', { direction: "asc" }).thenBy('createdAt', { direction: "asc" }));
+      myEvents.sort(firstBy('typeOfEvent', { direction: "asc" }).thenBy('createdAt', { direction: "desc" }));
 
       this.setState({ events:myEvents });
     });
