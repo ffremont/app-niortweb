@@ -18,7 +18,7 @@ const other: Configuration = {
         registerEmail: (id:any = '') => `${DEV_API_BASEURL}/events${id ? '/'+id: ''}/register-email`,
         emails: (id:any = '') => `${DEV_API_BASEURL}/events${id ? '/'+id: ''}/emails`,
     },
-    slack:'https://join.slack.com/t/niortweb/shared_invite/zt-j5dsxq3b-iQK~NE09Sxp4POn2CgDWqA'
+    slack:'https://join.slack.com/t/niortweb/shared_invite/zt-waku7536-bbV9WivBSdlTBVY8dJrUSA'
 } ;
 
 const API_BASEURL = '/api';
@@ -35,7 +35,7 @@ const prod: Configuration = {
         registerEmail: (id:any = '') => `${API_BASEURL}/events${id ? '/'+id: ''}/register-email`,
         emails: (id:any = '') => `${API_BASEURL}/events${id ? '/'+id: ''}/emails`
     },
-    slack:'https://join.slack.com/t/niortweb/shared_invite/zt-j5dsxq3b-iQK~NE09Sxp4POn2CgDWqA'
+    slack:'https://join.slack.com/t/niortweb/shared_invite/zt-waku7536-bbV9WivBSdlTBVY8dJrUSA'
 } ;
 
 const config = process.env.REACT_APP_STAGE === 'prod'  ? prod : other;
