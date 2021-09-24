@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import HowToVoteIcon from '@material-ui/icons/HowToVote';
-import { Box, FormControl, InputAdornment, InputLabel, NativeSelect, Select, TextField, Typography } from '@material-ui/core';
+import { Box, FormControl, InputAdornment, InputLabel, NativeSelect, TextField, Typography } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating/Rating';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import myProfilStore from '../../stores/my-profil';

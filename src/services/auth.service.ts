@@ -1,29 +1,29 @@
 import { BehaviorSubject } from "rxjs";
 import fcmService from "./fcm.service";
 import myProfilStore from '../stores/my-profil';
+import { User } from "../models/User";
 
 export class AuthService{
-    public subToken = new BehaviorSubject<string|null>(null);
-    public subUser = new BehaviorSubject<string|null>(null);
+    public behaviorSubjectToken = new BehaviorSubject<string|null>(null);
+    public behaviorSubjectUser = new BehaviorSubject<User|null>(null);
     public isAuth = false;
     private currentIdToken : string | null = null;
 
-    public async authenticate(user:any): Promise<any> {
+    public async authenticate(user:User): Promise<any> {
         fcmService.init();
         
         this.isAuth = true;
-        this.subUser.next(user);
+        this.behaviorSubjectUser.next(user);
 
         // provoque la récupération du profil dès qu'on est connecté
         myProfilStore.set(user);
         //return;
        return await myProfilStore.load();
-           
     }
 
     public setIdToken(idToken:string){
         this.currentIdToken = idToken;
-        this.subToken.next(idToken);
+        this.behaviorSubjectToken.next(idToken);
     }
 
     /**
@@ -69,8 +69,8 @@ export class AuthService{
 
     signout() {
         this.isAuth = false;
-        this.subUser.next(null);
-        this.subToken.next(null);
+        this.behaviorSubjectUser.next(null);
+        this.behaviorSubjectToken.next(null);
         
         if((window as any).firebase){
             (window as any).firebase.auth().signOut();
