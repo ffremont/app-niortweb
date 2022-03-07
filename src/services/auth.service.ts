@@ -1,4 +1,5 @@
 import { BehaviorSubject } from "rxjs";
+import { getAuth, signOut} from "firebase/auth";
 import fcmService from "./fcm.service";
 import myProfilStore from '../stores/my-profil';
 import { User } from "../models/User";
@@ -43,11 +44,16 @@ export class AuthService{
      * Redemande un token
      */
     public async getNewIdToken(){
-        const token = await (window as any).firebase.auth().currentUser.getIdToken();
-        this.currentIdToken = token;
-        this.setIdToken(token);
-
-        return token;
+        const auth = getAuth();
+        if(auth.currentUser){
+            const token = await auth.currentUser.getIdToken();
+            this.currentIdToken = token;
+            this.setIdToken(token);
+    
+            return token;
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -73,7 +79,7 @@ export class AuthService{
         this.behaviorSubjectToken.next(null);
         
         if((window as any).firebase){
-            (window as any).firebase.auth().signOut();
+            signOut(getAuth());
         }
     }
 }

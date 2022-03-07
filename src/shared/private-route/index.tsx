@@ -5,7 +5,6 @@ import {
   RouteProps,
 } from 'react-router-dom';
 import authService from '../../services/auth.service';
-//import authService from '../../services/auth.service';
 
 
 const PrivateRoute = (props: RouteProps) => {
@@ -16,9 +15,6 @@ const PrivateRoute = (props: RouteProps) => {
     {...rest}
     render={({ location, history, match }) =>
         authService.isAuth ? (
-          /*React.Children.map(children, (child:any) =>
-            React.createElement(child, {history,location})
-          ) */
           React.createElement(realCmp, {location, history, match})
         ) : (
                 <Redirect
