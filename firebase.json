@@ -10,7 +10,7 @@
     "redirects":[{
       "source": "/evenements/3f974aed-0098-4597-9222-000adaaed4db",
       "destination": "https://forms.gle/7CyXFHBhWXdn5KrD6",
-      "type:" : "302"
+      "type:" : 302
     }],
     "rewrites": [{
       "source": "/api/**",
