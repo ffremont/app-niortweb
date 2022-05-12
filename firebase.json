@@ -8,7 +8,7 @@
       "**/node_modules/**"
     ],
     "redirects":[{
-      "source": "/evenements/3f974aed-0098-4597-9222-000adaaed4db",
+      "source": "/evenements/3f974aed\\-0098\\-4597\\-9222\\-000adaaed4db",
       "destination": "https://forms.gle/7CyXFHBhWXdn5KrD6",
       "type:" : 301
     }],
